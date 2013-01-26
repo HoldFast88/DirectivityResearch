@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Mic
+namespace DirectCalc
 {
-    public partial class Form2 : Form
+    public partial class Form3 : Form
     {
         public double[] pointsArray;
         public System.String plotTitle;
@@ -20,16 +20,16 @@ namespace Mic
         public uint tubesNumber;
         public double deltha;
 
-        public Form2()
+        public Form3()
         {
             InitializeComponent();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void Form3_Load(object sender, EventArgs e)
         {
-           // Setup the graph
+            // Setup the graph
             CreateGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
             SetSize();
@@ -37,7 +37,7 @@ namespace Mic
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void Form1_Resize(object sender, EventArgs e)
+        private void Form3_Resize(object sender, EventArgs e)
         {
             SetSize();
         }
@@ -66,29 +66,6 @@ namespace Mic
             myPane.YAxis.Title.Text = "";
             myPane.XAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsVisible = true;
-            /*
-             * ДН в декартовой системе координат
-             * 
-            // Make up some data arrays based on the Sine function
-            double x, y;
-            PointPairList list1 = new PointPairList();
-            for (int i = 0; i < 360; i++)
-            {
-                x = (double)i;
-                y = 1);
-                list1.Add(x, y);
-            }
-
-            // Generate a red curve with diamond
-            // symbols, and "Porsche" in the legend
-            LineItem myCurve = myPane.AddCurve("AllDirectional",
-                  list1, Color.Red, SymbolType.Diamond);
-
-            // Tell ZedGraph to refigure the
-            // axes since the data have changed
-            zgc.AxisChange();
-             */
-
             myPane.YAxis.MajorGrid.IsZeroLine = false;
             // Создаем список точек 
             RadarPointList points = new RadarPointList();
@@ -109,35 +86,6 @@ namespace Mic
 
             zgc.AxisChange();
             zgc.Invalidate();
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Используйте grad-and-drop левой кнопкой мыши для масштабирования графика по оси Y, зажатым колёсиком для перемешения экрана видимости и вращение колёсика для уменьшения/уменьшения масшатаба.");
-            /*
-            for (uint i = 20; i <= 20000; i += 20)
-            {
-                frequency = i;
-                redrawPlot();
-                System.Threading.Thread.Sleep(500); // ms
-            }
-             */
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-        private void redrawPlot()
-        {
-            double[] array = (double[])PlotController.DrawPlot((MicType)micType,
-                                                               frequency,
-                                                               count,
-                                                               tubesNumber,
-                                                               deltha);
-            this.pointsArray = array;
-            // Setup the graph
-            CreateGraph(zedGraphControl1);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
