@@ -25,12 +25,22 @@ namespace DirectCalc
             bool isFrequencyFieldIsEmpty = frequencyField.Text.Length == 0;
             bool isMinimumFrequencyFieldIsEmpty = frequencyTextField.Text.Length == 0;
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
+            bool isDiameterFieldIsEmpty = diameterTextBox.Text.Length == 0;
 
-            if (!isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
-                return;
+            if (lineGroupRadioButton.Checked || organRadioButton.Checked)
+            {
+                if (!isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
+                    return;
 
-            if (isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
+                if (isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
+                    buildDirectivityDepencity();
+            }
+            else if (parabolicRadioButton.Enabled)
+            {
+                if (isDiameterFieldIsEmpty)
+                    return;
                 buildDirectivityDepencity();
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +63,8 @@ namespace DirectCalc
                     plotTitle = "Микрофон органного типа";
                 else if (lineGroupRadioButton.Checked)
                     plotTitle = "Линейная группа микрофонов";
+                else if (parabolicRadioButton.Checked)
+                    plotTitle = "Параболический микрофон";
 
                 Form3 newMDIChild = new Form3();
 
@@ -122,7 +134,14 @@ namespace DirectCalc
             for (int i = 0; i < count; i++)
             {
                 double freq = minFrequency + (deltha / count) * (i + 1);
-                array[i] = directivity(freq);
+
+                if (lineGroupRadioButton.Checked || organRadioButton.Checked) {
+                    array[i] = directivity(freq);
+                } else if (parabolicRadioButton.Enabled) {
+                    double theta = Math.PI / (i / count);
+                    array[i] = 10 * Math.Log10(dependence(freq, 0, 0, theta));
+                }
+
                 yAxisValues[i] = freq;
                 progressBar1.Value = i + 1;
             }
@@ -176,6 +195,12 @@ namespace DirectCalc
                 }
             }
             //*/
+            else if (parabolicRadioButton.Checked)
+            {
+                double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+                first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
+                second = Math.Pow(wavelenght, 2.0);
+            }
             double result = Math.Abs(first / second);
             return result;
         }
@@ -185,8 +210,12 @@ namespace DirectCalc
         private double directivity(double f)
         {
             Int32 num = Convert.ToInt32(numberTextField.Text);
+
             double d = Convert.ToInt32(deltaTextField.Text) / (double)100;
-            double result = Integrate.OnClosedInterval(x => (Math.Pow(dependence(f, num, d, x),2)*Math.Sin(x)), 0, Math.PI);
+            double result;
+
+            result = Integrate.OnClosedInterval(x => (Math.Pow(dependence(f, num, d, x), 2) * Math.Sin(x)), 0, Math.PI);
+
             double dd = 10 * Math.Log10(2 / result);
             return dd;
         }
@@ -195,7 +224,79 @@ namespace DirectCalc
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            updateInterface();
+        }
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void lineGroupRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void organRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void parabolicRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void updateInterface()
+        {
+            if (lineGroupRadioButton.Checked || organRadioButton.Checked){
+                // labels
+                label1.Show();
+                label2.Show();
+                label3.Show();
+                label4.Show();
+                label5.Show();
+                label6.Show();
+                label7.Show();
+                label8.Hide();
+                label9.Hide();
+
+                // text fields
+                frequencyField.Show();
+                frequencyTextField.Show();
+                frequencyMaxTextBox.Show();
+                numberTextField.Show();
+                deltaTextField.Show();
+                diameterTextBox.Hide();
+
+                // buttons
+                button2.Enabled = true;
+            } else if (parabolicRadioButton.Checked) {
+                // labels
+                label1.Show();
+                label2.Hide();
+                label3.Hide();
+                label4.Show();
+                label5.Hide();
+                label6.Show();
+                label7.Hide();
+                label8.Show();
+                label9.Show();
+
+                // text fields
+                frequencyField.Hide();
+                frequencyTextField.Show();
+                frequencyMaxTextBox.Show();
+                numberTextField.Hide();
+                deltaTextField.Hide();
+                diameterTextBox.Show();
+
+                // buttons
+                button2.Enabled = false;
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
