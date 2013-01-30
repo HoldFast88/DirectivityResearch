@@ -67,7 +67,6 @@
             this.frequencyTextField.Name = "frequencyTextField";
             this.frequencyTextField.Size = new System.Drawing.Size(39, 20);
             this.frequencyTextField.TabIndex = 1;
-            this.frequencyTextField.Text = "20";
             // 
             // numberTextField
             // 
@@ -75,7 +74,6 @@
             this.numberTextField.Name = "numberTextField";
             this.numberTextField.Size = new System.Drawing.Size(100, 20);
             this.numberTextField.TabIndex = 2;
-            this.numberTextField.Text = "25";
             // 
             // deltaTextField
             // 
@@ -83,7 +81,6 @@
             this.deltaTextField.Name = "deltaTextField";
             this.deltaTextField.Size = new System.Drawing.Size(100, 20);
             this.deltaTextField.TabIndex = 3;
-            this.deltaTextField.Text = "5";
             // 
             // label1
             // 
@@ -118,7 +115,6 @@
             this.frequencyMaxTextBox.Name = "frequencyMaxTextBox";
             this.frequencyMaxTextBox.Size = new System.Drawing.Size(38, 20);
             this.frequencyMaxTextBox.TabIndex = 8;
-            this.frequencyMaxTextBox.Text = "5000";
             // 
             // label4
             // 
@@ -170,7 +166,6 @@
             this.frequencyField.Name = "frequencyField";
             this.frequencyField.Size = new System.Drawing.Size(100, 20);
             this.frequencyField.TabIndex = 16;
-            this.frequencyField.Text = "500";
             // 
             // label7
             // 
@@ -248,8 +243,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 303);
+            this.Controls.Add(this.numberTextField);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.diameterTextBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.parabolicRadioButton);
             this.Controls.Add(this.button2);
@@ -266,9 +261,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.deltaTextField);
-            this.Controls.Add(this.numberTextField);
             this.Controls.Add(this.frequencyTextField);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.diameterTextBox);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

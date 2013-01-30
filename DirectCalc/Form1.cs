@@ -29,17 +29,13 @@ namespace DirectCalc
 
             if (lineGroupRadioButton.Checked || organRadioButton.Checked)
             {
-                if (!isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
-                    return;
-
-                if (isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
+                if (!isMinimumFrequencyFieldIsEmpty && !isMaximumFrequencyFieldIsEmpty)
                     buildDirectivityDepencity();
             }
             else if (parabolicRadioButton.Enabled)
             {
-                if (isDiameterFieldIsEmpty)
-                    return;
-                buildDirectivityDepencity();
+                if (!isDiameterFieldIsEmpty)
+                    buildDirectivityDepencity();
             }
         }
 
@@ -51,10 +47,7 @@ namespace DirectCalc
             bool isMinimumFrequencyFieldIsEmpty = frequencyTextField.Text.Length == 0;
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
 
-            if (!isFrequencyFieldIsEmpty && (!isMinimumFrequencyFieldIsEmpty || !isMaximumFrequencyFieldIsEmpty))
-                return;
-
-            if (!isFrequencyFieldIsEmpty && (isMinimumFrequencyFieldIsEmpty || isMaximumFrequencyFieldIsEmpty))
+            if (!isMinimumFrequencyFieldIsEmpty && !isMaximumFrequencyFieldIsEmpty)
             {
                 double[] array = (double[])createArrayForDirectivityPlot();
                 System.String plotTitle = "";
@@ -173,7 +166,7 @@ namespace DirectCalc
                 second = n * Math.Sin((Math.PI * d * (1 - Math.Cos(angle))) / (wavelenght));
                 if (second == 0.0)
                 {
-                    // Судя по всему функция Math.Cos() достаточно грубо округляет значения и считает что Math.Cos(0.00000000000001) = 1
+                    // Судя по всему, функция Math.Cos() достаточно грубо округляет значения и считает что Math.Cos(0.00000000000001) = 1
                     angle += 0.00000001;
                     goto mark1;
                 }
