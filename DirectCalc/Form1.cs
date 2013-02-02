@@ -11,6 +11,12 @@ using MathNet.Numerics.Integration;
 
 namespace DirectCalc
 {
+    enum MicrophoneType {
+        MicrophoneTypeOrgan = 0,
+        MicrophoneTypeLinear = 1,
+        MicrophoneTypeParabolic = 2
+    };
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -30,12 +36,17 @@ namespace DirectCalc
             if (lineGroupRadioButton.Checked || organRadioButton.Checked)
             {
                 if (!isMinimumFrequencyFieldIsEmpty && !isMaximumFrequencyFieldIsEmpty)
-                    buildDirectivityDepencity();
+                {
+                    if (lineGroupRadioButton.Checked)
+                        buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
+                    else if (organRadioButton.Checked)
+                        buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
+                }
             }
             else if (parabolicRadioButton.Enabled)
             {
                 if (!isDiameterFieldIsEmpty)
-                    buildDirectivityDepencity();
+                    buildDirectivityDepencity(MicrophoneType.MicrophoneTypeParabolic);
             }
         }
 
@@ -44,32 +55,39 @@ namespace DirectCalc
         private void button2_Click(object sender, EventArgs e)
         {
             bool isFrequencyFieldIsEmpty = frequencyField.Text.Length == 0;
-            bool isMinimumFrequencyFieldIsEmpty = frequencyTextField.Text.Length == 0;
-            bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
 
-            if (!isMinimumFrequencyFieldIsEmpty && !isMaximumFrequencyFieldIsEmpty)
+            if (!isFrequencyFieldIsEmpty)
             {
-                double[] array = (double[])createArrayForDirectivityPlot();
+                double[] array = null;// = (double[])createArrayForDirectivityPlot();
                 System.String plotTitle = "";
 
                 if (organRadioButton.Checked)
+                {
+                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeOrgan);
                     plotTitle = "Микрофон органного типа";
+                }
                 else if (lineGroupRadioButton.Checked)
+                {
+                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeLinear);
                     plotTitle = "Линейная группа микрофонов";
+                }
                 else if (parabolicRadioButton.Checked)
+                {
+                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeParabolic);
                     plotTitle = "Параболический микрофон";
+                }
 
                 Form3 newMDIChild = new Form3();
 
                 newMDIChild.pointsArray = array;
                 newMDIChild.plotTitle = plotTitle;
-                newMDIChild.ShowDialog();
+                newMDIChild.Show();
             }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private System.Array createArrayForDirectivityPlot()
+        private System.Array createArrayForDirectivityPlot(MicrophoneType microphoneType) // using for building directivity plot
         {
             int frequency = Convert.ToInt32(frequencyField.Text);
             Int32 tubesNumber = Convert.ToInt32(numberTextField.Text);
@@ -86,7 +104,7 @@ namespace DirectCalc
                 double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
                 double angle = ((double)i / (double)count) * 2 * pi;
 
-                double value = dependence(frequency, tubesNumber, deltha, angle);
+                double value = dependence(frequency, tubesNumber, deltha, angle, microphoneType);
                 array[i] = value;
                 progressBar1.Value = i;
             }
@@ -111,7 +129,7 @@ namespace DirectCalc
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void buildDirectivityDepencity()
+        private void buildDirectivityDepencity(MicrophoneType microphoneType)
         {
             Form2 newMDIChild = new Form2();
 
@@ -124,6 +142,53 @@ namespace DirectCalc
             double maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
             double deltha = maxFrequency - minFrequency;
 
+            switch (microphoneType)
+            {
+                case MicrophoneType.MicrophoneTypeLinear:
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            double freq = minFrequency + (deltha / count) * (i + 1);
+                            array[i] = directivity(freq, microphoneType);
+                            yAxisValues[i] = freq;
+                            progressBar1.Value = i + 1;
+                        }
+                    }
+                    break;
+
+                case MicrophoneType.MicrophoneTypeOrgan:
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            double freq = minFrequency + (deltha / count) * (i + 1);
+                            array[i] = directivity(freq, microphoneType);
+                            yAxisValues[i] = freq;
+                            progressBar1.Value = i + 1;
+                        }
+                    }
+                    break;
+
+                case MicrophoneType.MicrophoneTypeParabolic:
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            double freq = minFrequency + (deltha / count) * (i + 1);
+                            double theta = Math.PI / (i / count);
+                            array[i] = 10 * Math.Log10(dependence(freq, 0, 0, theta, microphoneType));
+
+                            yAxisValues[i] = freq;
+                            progressBar1.Value = i + 1;
+                        }
+                    }
+                    break;
+
+                default:
+                    {
+                    }
+                    break;
+            }
+
+            /*
             for (int i = 0; i < count; i++)
             {
                 double freq = minFrequency + (deltha / count) * (i + 1);
@@ -138,18 +203,19 @@ namespace DirectCalc
                 yAxisValues[i] = freq;
                 progressBar1.Value = i + 1;
             }
+             */
 
             progressBar1.Value = 0;
             System.String plotTitle = "";
             newMDIChild.pointsArray = array;
             newMDIChild.yAxisValues = yAxisValues;
             newMDIChild.plotTitle = plotTitle;
-            newMDIChild.ShowDialog();
+            newMDIChild.Show();
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private double dependence(double frequency, Int32 n, double d, double theta)
+        private double dependence(double frequency, Int32 n, double d, double theta, MicrophoneType microphoneType)
         {
             double wavelenght = (double)331 / (double)frequency;
             double angle = theta;
@@ -200,14 +266,14 @@ namespace DirectCalc
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private double directivity(double f)
+        private double directivity(double f, MicrophoneType microphoneType)
         {
             Int32 num = Convert.ToInt32(numberTextField.Text);
 
             double d = Convert.ToInt32(deltaTextField.Text) / (double)100;
             double result;
 
-            result = Integrate.OnClosedInterval(x => (Math.Pow(dependence(f, num, d, x), 2) * Math.Sin(x)), 0, Math.PI);
+            result = Integrate.OnClosedInterval(x => (Math.Pow(dependence(f, num, d, x, microphoneType), 2) * Math.Sin(x)), 0, Math.PI);
 
             double dd = 10 * Math.Log10(2 / result);
             return dd;

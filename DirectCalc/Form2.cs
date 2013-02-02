@@ -11,6 +11,7 @@ namespace DirectCalc
 {
     public partial class Form2 : Form
     {
+        //public Dictionary<String, Dictionary<String, Array>>[] datasource;
         public double[] pointsArray;
         public double[] yAxisValues;
         public System.String plotTitle;
