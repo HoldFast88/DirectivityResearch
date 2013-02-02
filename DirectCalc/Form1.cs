@@ -286,45 +286,6 @@ namespace DirectCalc
                     break;
             }
 
-            /*
-            if (organRadioButton.Checked)
-            {
-            mark1: ;
-                first = Math.Sin((n * Math.PI * d * (1 - Math.Cos(angle))) / (wavelenght));
-                second = n * Math.Sin((Math.PI * d * (1 - Math.Cos(angle))) / (wavelenght));
-                if (second == 0.0)
-                {
-                    // Судя по всему, функция Math.Cos() достаточно грубо округляет значения и считает что Math.Cos(0.00000000000001) = 1
-                    angle += 0.00000001;
-                    goto mark1;
-                }
-            }
-            /*
-             * Линейная группа микрофонов
-             */
-            //*
-            /*
-            else if (lineGroupRadioButton.Checked)
-            {
-            mark2: ;
-                first = Math.Sin(Math.Sin(angle) * n * Math.PI * d / wavelenght);
-                second = n * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
-                if (second == 0.0)
-                {
-                    angle = Math.PI;
-                    goto mark2;
-                    //return 0.0F;
-                }
-            }
-            //*/
-            /*
-            else if (parabolicRadioButton.Checked)
-            {
-                double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-                first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
-                second = Math.Pow(wavelenght, 2.0);
-            }
-            */
             double result = Math.Abs(first / second);
             return result;
         }
