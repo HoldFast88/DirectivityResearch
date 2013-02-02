@@ -33,21 +33,47 @@ namespace DirectCalc
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
             bool isDiameterFieldIsEmpty = diameterTextBox.Text.Length == 0;
 
-            if (lineGroupRadioButton.Checked || organRadioButton.Checked)
+            Form2 newMDIChild = new Form2();
+
+            int numberOfCheckedCheckboxes = Convert.ToInt32(checkBox1.Checked) + Convert.ToInt32(checkBox2.Checked) + Convert.ToInt32(checkBox3.Checked);
+            Array[] arrayOfXPoints = new Array[numberOfCheckedCheckboxes];
+            Array[] arrayOfYPoints = new Array[numberOfCheckedCheckboxes];
+            String[] arrayOfTitles = new String[numberOfCheckedCheckboxes];
+
+            int index = 0;
+
+            if (checkBox1.Checked) // linear mic
             {
-                if (!isMinimumFrequencyFieldIsEmpty && !isMaximumFrequencyFieldIsEmpty)
-                {
-                    if (lineGroupRadioButton.Checked)
-                        buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
-                    else if (organRadioButton.Checked)
-                        buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
-                }
+                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
+                arrayOfYPoints[index] = array[0];
+                arrayOfXPoints[index] = array[1];
+                arrayOfTitles[index] = "Линейная группа микрофонов";
+                index++;
             }
-            else if (parabolicRadioButton.Enabled)
+
+            if (checkBox2.Checked) // organ mic
             {
-                if (!isDiameterFieldIsEmpty)
-                    buildDirectivityDepencity(MicrophoneType.MicrophoneTypeParabolic);
+                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
+                arrayOfYPoints[index] = array[0];
+                arrayOfXPoints[index] = array[1];
+                arrayOfTitles[index] = "Микрофон органного типа";
+                index++;
             }
+
+            if (checkBox3.Checked) // organ mic
+            {
+                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeParabolic);
+                arrayOfYPoints[index] = array[0];
+                arrayOfXPoints[index] = array[1];
+                arrayOfTitles[index] = "Параболический микрофон";
+                index++;
+            }
+
+            newMDIChild.arrayOfXValues = arrayOfXPoints;
+            newMDIChild.arrayOfYValues = arrayOfYPoints;
+            newMDIChild.arrayOfTitles = arrayOfTitles;
+            //newMDIChild.plotTitle = plotTitle;
+            newMDIChild.Show();
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,10 +155,8 @@ namespace DirectCalc
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void buildDirectivityDepencity(MicrophoneType microphoneType)
+        private Array[] buildDirectivityDepencity(MicrophoneType microphoneType)
         {
-            Form2 newMDIChild = new Form2();
-
             int count = 1000;
             progressBar1.Maximum = count;
             double[] array = new double[count];
@@ -141,6 +165,8 @@ namespace DirectCalc
             double minFrequency = Convert.ToDouble(frequencyTextField.Text);
             double maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
             double deltha = maxFrequency - minFrequency;
+
+            Array[] arrayForReturn = new Array[2];
 
             switch (microphoneType)
             {
@@ -189,11 +215,18 @@ namespace DirectCalc
             }
 
             progressBar1.Value = 0;
-            System.String plotTitle = "";
+
+            arrayForReturn[0] = array;
+            arrayForReturn[1] = yAxisValues;
+
+            return arrayForReturn;
+            //System.String plotTitle = "";
+            /*
             newMDIChild.pointsArray = array;
             newMDIChild.yAxisValues = yAxisValues;
             newMDIChild.plotTitle = plotTitle;
             newMDIChild.Show();
+             */
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,6 +241,52 @@ namespace DirectCalc
             //*
             double first = 0.0;
             double second = 0.0;
+
+            switch (microphoneType)
+            {
+                case MicrophoneType.MicrophoneTypeOrgan:
+                    {
+                    mark1: ;
+                        first = Math.Sin((n * Math.PI * d * (1 - Math.Cos(angle))) / (wavelenght));
+                        second = n * Math.Sin((Math.PI * d * (1 - Math.Cos(angle))) / (wavelenght));
+                        if (second == 0.0)
+                        {
+                            // Судя по всему, функция Math.Cos() достаточно грубо округляет значения и считает что Math.Cos(0.00000000000001) = 1
+                            angle += 0.00000001;
+                            goto mark1;
+                        }
+                    }
+                    break;
+
+                case MicrophoneType.MicrophoneTypeLinear:
+                    {
+                    mark2: ;
+                        first = Math.Sin(Math.Sin(angle) * n * Math.PI * d / wavelenght);
+                        second = n * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
+                        if (second == 0.0)
+                        {
+                            angle = Math.PI;
+                            goto mark2;
+                            //return 0.0F;
+                        }
+                    }
+                    break;
+
+                case MicrophoneType.MicrophoneTypeParabolic:
+                    {
+                        double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+                        first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
+                        second = Math.Pow(wavelenght, 2.0);
+                    }
+                    break;
+
+                default:
+                    {
+                    }
+                    break;
+            }
+
+            /*
             if (organRadioButton.Checked)
             {
             mark1: ;
@@ -224,6 +303,7 @@ namespace DirectCalc
              * Линейная группа микрофонов
              */
             //*
+            /*
             else if (lineGroupRadioButton.Checked)
             {
             mark2: ;
@@ -237,12 +317,14 @@ namespace DirectCalc
                 }
             }
             //*/
+            /*
             else if (parabolicRadioButton.Checked)
             {
                 double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
                 first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
                 second = Math.Pow(wavelenght, 2.0);
             }
+            */
             double result = Math.Abs(first / second);
             return result;
         }

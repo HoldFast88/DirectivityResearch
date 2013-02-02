@@ -12,8 +12,11 @@ namespace DirectCalc
     public partial class Form2 : Form
     {
         //public Dictionary<String, Dictionary<String, Array>>[] datasource;
-        public double[] pointsArray;
-        public double[] yAxisValues;
+        //public double[] pointsArray;
+        //public double[] yAxisValues;
+        public Array[] arrayOfXValues;
+        public Array[] arrayOfYValues;
+        public String[] arrayOfTitles;
         public System.String plotTitle;
 
         public Form2()
@@ -53,12 +56,20 @@ namespace DirectCalc
             myPane.XAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsVisible = true;
 
-            PointPairList spl1 = new PointPairList(yAxisValues, pointsArray);
-            LineItem myCurve1 = myPane.AddCurve("", spl1, Color.Black, SymbolType.Diamond);
-            myCurve1.Symbol.Fill.Color = Color.Blue;
-            myCurve1.Symbol.Fill.Type = FillType.Solid;
-            myCurve1.Symbol.Size = 2;
-            myCurve1.Line.Width = 1.0F;
+            for (int i = 0; i < arrayOfXValues.Length; i++)
+            {
+                double[] xValuesArray = (double[])arrayOfXValues[i];
+                double[] yValuesArray = (double[])arrayOfYValues[i];
+                String title = arrayOfTitles[i];
+
+                PointPairList list = new PointPairList(xValuesArray, yValuesArray);
+                LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
+                curve.Symbol.Fill.Color = Color.Blue;
+                curve.Symbol.Fill.Type = FillType.Solid;
+                curve.Symbol.Size = 2;
+                curve.Line.Width = 1.0F;
+            }
+
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
             zedGraphControl1.Refresh();
