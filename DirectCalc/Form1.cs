@@ -245,6 +245,13 @@ namespace DirectCalc
 
         private void updateInterface()
         {
+            int numberOfCheckedCheckboxes = Convert.ToInt32(checkBox1.Checked) + Convert.ToInt32(checkBox2.Checked) + Convert.ToInt32(checkBox3.Checked);
+
+            if (numberOfCheckedCheckboxes == 0)
+                button1.Enabled = false;
+            else
+                button1.Enabled = true;
+
             if (lineGroupRadioButton.Checked || organRadioButton.Checked){
                 // labels
                 label1.Show();
@@ -266,7 +273,11 @@ namespace DirectCalc
                 diameterTextBox.Hide();
 
                 // buttons
-                button2.Enabled = true;
+                if (numberOfCheckedCheckboxes > 1 || numberOfCheckedCheckboxes < 1){
+                    button2.Enabled = false;
+                } else {
+                    button2.Enabled = true;
+                }
             } else if (parabolicRadioButton.Checked) {
                 // labels
                 label1.Show();
@@ -290,6 +301,27 @@ namespace DirectCalc
                 // buttons
                 button2.Enabled = false;
             }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            updateInterface();
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
