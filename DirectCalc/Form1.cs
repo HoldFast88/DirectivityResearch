@@ -188,23 +188,6 @@ namespace DirectCalc
                     break;
             }
 
-            /*
-            for (int i = 0; i < count; i++)
-            {
-                double freq = minFrequency + (deltha / count) * (i + 1);
-
-                if (lineGroupRadioButton.Checked || organRadioButton.Checked) {
-                    array[i] = directivity(freq);
-                } else if (parabolicRadioButton.Enabled) {
-                    double theta = Math.PI / (i / count);
-                    array[i] = 10 * Math.Log10(dependence(freq, 0, 0, theta));
-                }
-
-                yAxisValues[i] = freq;
-                progressBar1.Value = i + 1;
-            }
-             */
-
             progressBar1.Value = 0;
             System.String plotTitle = "";
             newMDIChild.pointsArray = array;
