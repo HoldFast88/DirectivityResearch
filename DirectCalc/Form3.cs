@@ -67,6 +67,14 @@ namespace DirectCalc
             myPane.XAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsZeroLine = false;
+
+            myPane.XAxis.Scale.Min = -1;
+            myPane.XAxis.Scale.Max = 1;
+
+            // По оси Y установим автоматический подбор масштаба
+            myPane.YAxis.Scale.MinAuto = true;
+            myPane.YAxis.Scale.MaxAuto = true;
+
             // Создаем список точек 
             RadarPointList points = new RadarPointList();
             // Т.к. в списке будет 4 точки, то и окружность будет разбиваться на 4 части

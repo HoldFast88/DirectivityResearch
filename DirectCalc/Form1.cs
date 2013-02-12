@@ -124,23 +124,19 @@ namespace DirectCalc
             double pi = Math.PI;
 
             progressBar1.Maximum = count;
+            double maxValue = 0;
             for (int i = 0; i < count; i++)
             {
                 double wavelenght = (double)((double)320 / (double)frequency);
-                double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
+                //double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
                 double angle = ((double)i / (double)count) * 2 * pi;
 
                 double value = dependence(frequency, tubesNumber, deltha, angle, microphoneType);
                 array[i] = value;
-                progressBar1.Value = i;
-            }
+                if (value > maxValue)
+                    maxValue = value;
 
-            // Нормирование показаний
-            double maxValue = 0;
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (array[i] > maxValue)
-                    maxValue = array[i];
+                progressBar1.Value = i;
             }
 
             for (int i = 0; i < array.Length; i++)
@@ -261,8 +257,8 @@ namespace DirectCalc
                 case MicrophoneType.MicrophoneTypeLinear:
                     {
                     mark2: ;
-                        first = Math.Sin(Math.Sin(angle) * n * Math.PI * d / wavelenght);
-                        second = n * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
+                    first = Math.Sin(Math.Sin(angle) * Convert.ToDouble(n) * Math.PI * d / wavelenght);
+                    second = Convert.ToDouble(n) * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
                         if (second == 0.0)
                         {
                             angle = Math.PI;
