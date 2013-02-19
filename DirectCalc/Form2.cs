@@ -59,12 +59,34 @@ namespace DirectCalc
                 double[] yValuesArray = (double[])arrayOfYValues[i];
                 String title = arrayOfTitles[i];
 
+                // search for biggest Y value, which represents max working frequency
+                double maxYValue = 0;
+                double xValue;
+                int index = 0;
+                for (int q = 0; q < yValuesArray.Length; q++)
+                {
+                    if (yValuesArray[q] > maxYValue)
+                    {
+                        maxYValue = yValuesArray[q];
+                        index = q;
+                    }
+                }
+                xValue = xValuesArray[index];
+
                 PointPairList list = new PointPairList(xValuesArray, yValuesArray);
                 LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
                 curve.Symbol.Fill.Color = Color.Blue;
                 curve.Symbol.Fill.Type = FillType.Solid;
                 curve.Symbol.Size = 2;
                 curve.Line.Width = 1.0F;
+
+                // adding to curve mark, which shows max working frequency
+                PointPairList maxWorkingFrequencyMark = new PointPairList();
+                maxWorkingFrequencyMark.Add(xValue, maxYValue);
+                LineItem selectedPoint = myPane.AddCurve("", maxWorkingFrequencyMark, Color.Black, SymbolType.XCross);
+                selectedPoint.Symbol.Fill.Color = Color.Black;
+                selectedPoint.Symbol.Fill.Type = FillType.Solid;
+                selectedPoint.Symbol.Size = 15;
             }
 
             zedGraphControl1.AxisChange();
