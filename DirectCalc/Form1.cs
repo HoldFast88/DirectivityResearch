@@ -72,7 +72,6 @@ namespace DirectCalc
             newMDIChild.arrayOfXValues = arrayOfXPoints;
             newMDIChild.arrayOfYValues = arrayOfYPoints;
             newMDIChild.arrayOfTitles = arrayOfTitles;
-            //newMDIChild.plotTitle = plotTitle;
             newMDIChild.Show();
         }
 
@@ -116,8 +115,15 @@ namespace DirectCalc
         private System.Array createArrayForDirectivityPlot(MicrophoneType microphoneType) // using for building directivity plot
         {
             int frequency = Convert.ToInt32(frequencyField.Text);
-            Int32 tubesNumber = Convert.ToInt32(numberTextField.Text);
-            double deltha = Convert.ToInt32(deltaTextField.Text) / (double)100;
+            Int32 tubesNumber = 0;// = Convert.ToInt32(numberTextField.Text);
+            double deltha = 0;// = Convert.ToInt32(deltaTextField.Text) / (double)100;
+
+            if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
+            {
+                tubesNumber = Convert.ToInt32(numberTextField.Text);
+                deltha = Convert.ToInt32(deltaTextField.Text) / (double)100;
+            }
+
             int count = 360;
 
             double[] array = new double[count];
@@ -196,7 +202,14 @@ namespace DirectCalc
                         {
                             double freq = minFrequency + (deltha / count) * (i + 1);
                             double theta = Math.PI / (i / count);
-                            array[i] = 10 * Math.Log10(dependence(freq, 0, 0, theta, microphoneType));
+
+                            double wavelenght = (double)331 / (double)freq;
+                            double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+
+                            double first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
+                            double second = Math.Pow(wavelenght, 2.0);
+
+                            array[i] = 10 * Math.Log10(Math.Abs(first / second));
 
                             yAxisValues[i] = freq;
                             progressBar1.Value = i + 1;
@@ -257,8 +270,8 @@ namespace DirectCalc
                 case MicrophoneType.MicrophoneTypeLinear:
                     {
                     mark2: ;
-                    first = Math.Sin(Math.Sin(angle) * Convert.ToDouble(n) * Math.PI * d / wavelenght);
-                    second = Convert.ToDouble(n) * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
+                        first = Math.Sin(Math.Sin(angle) * Convert.ToDouble(n) * Math.PI * d / wavelenght);
+                        second = Convert.ToDouble(n) * Math.Sin(Math.Sin(angle) * Math.PI * d / wavelenght);
                         if (second == 0.0)
                         {
                             angle = Math.PI;
@@ -271,8 +284,16 @@ namespace DirectCalc
                 case MicrophoneType.MicrophoneTypeParabolic:
                     {
                         double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-                        first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
-                        second = Math.Pow(wavelenght, 2.0);
+                        double radius = diameter / 2;
+                    mark2: ;
+                        first = (1 + Math.Cos(angle)) * alglib.besselj1((2 * Math.PI * radius * Math.Sin(angle)) / wavelenght) * wavelenght;
+                        second = 4 * Math.PI * radius * Math.Sin(angle);
+
+                        if (first == 0.0)
+                        {
+                            angle += 0.000001;
+                            goto mark2;
+                        }
                     }
                     break;
 
@@ -360,12 +381,6 @@ namespace DirectCalc
                 deltaTextField.Show();
                 diameterTextBox.Hide();
 
-                // buttons
-                if (numberOfCheckedCheckboxes > 1 || numberOfCheckedCheckboxes < 1){
-                    button2.Enabled = false;
-                } else {
-                    button2.Enabled = true;
-                }
             } else if (parabolicRadioButton.Checked) {
                 // labels
                 label1.Show();
@@ -374,12 +389,14 @@ namespace DirectCalc
                 label4.Show();
                 label5.Hide();
                 label6.Show();
-                label7.Hide();
+                //label7.Hide();
+                label7.Show();
                 label8.Show();
                 label9.Show();
 
                 // text fields
-                frequencyField.Hide();
+                //frequencyField.Hide();
+                frequencyField.Show();
                 frequencyTextField.Show();
                 frequencyMaxTextBox.Show();
                 numberTextField.Hide();
@@ -387,8 +404,15 @@ namespace DirectCalc
                 diameterTextBox.Show();
 
                 // buttons
-                button2.Enabled = false;
+                //button2.Enabled = false;
             }
+
+            // buttons
+                if (numberOfCheckedCheckboxes > 1 || numberOfCheckedCheckboxes < 1){
+                    button2.Enabled = false;
+                } else {
+                    button2.Enabled = true;
+                }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////

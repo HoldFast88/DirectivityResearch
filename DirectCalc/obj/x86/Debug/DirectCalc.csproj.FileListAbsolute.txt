@@ -75,3 +75,4 @@ C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\ResGen.write.1.tlog
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Form3.resources
+C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\alglibnet2.dll
