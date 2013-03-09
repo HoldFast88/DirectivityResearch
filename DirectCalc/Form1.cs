@@ -11,7 +11,8 @@ using MathNet.Numerics.Integration;
 
 namespace DirectCalc
 {
-    enum MicrophoneType {
+    enum MicrophoneType
+    {
         MicrophoneTypeOrgan = 0,
         MicrophoneTypeLinear = 1,
         MicrophoneTypeParabolic = 2
@@ -102,6 +103,37 @@ namespace DirectCalc
                     plotTitle = "Параболический микрофон";
                 }
 
+                /*
+                 * Вычисление отношения площадей главного лепестка ДН и всех остальных
+                 * 
+                double minValue = 1.0;
+                double firstZeroAngle = 0.0;
+                int sss = array.Length;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    double angle = ((double)i / (double)360) * 2 * Math.PI;
+                    double value = dependence(250, 40, 0.02, angle, MicrophoneType.MicrophoneTypeOrgan);
+
+                    if (value < minValue)
+                    {
+                        minValue = array[i];
+                    }
+
+                    if (value > minValue)
+                    {
+                        firstZeroAngle = angle;
+                        break;
+                    }
+                }
+
+
+
+                double mainDirection = Integrate.OnClosedInterval(x => dependence(250, 40, 0.02, x, MicrophoneType.MicrophoneTypeOrgan), -firstZeroAngle, firstZeroAngle);
+                double allDirections = Integrate.OnClosedInterval(x => dependence(250, 40, 0.02, x, MicrophoneType.MicrophoneTypeOrgan), 0, 2 * Math.PI);
+                double res = mainDirection / allDirections;
+                */
+
+
                 Form3 newMDIChild = new Form3();
 
                 newMDIChild.pointsArray = array;
@@ -137,7 +169,15 @@ namespace DirectCalc
                 //double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
                 double angle = ((double)i / (double)count) * 2 * pi;
 
-                double value = dependence(frequency, tubesNumber, deltha, angle, microphoneType);
+                double diameter = 0.0;
+
+                if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
+                {
+                    diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+                }
+
+                double value = DirectivityController.CountDirectivityDependence(microphoneType, frequency, deltha, tubesNumber, diameter, angle);
+
                 array[i] = value;
                 if (value > maxValue)
                     maxValue = value;
@@ -168,6 +208,16 @@ namespace DirectCalc
             double maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
             double deltha = maxFrequency - minFrequency;
 
+            Int32 num = Convert.ToInt32(numberTextField.Text);
+
+            double d = Convert.ToInt32(deltaTextField.Text) / (double)100;
+            double diameter = 0.0;
+
+            if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
+            {
+                diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+            }
+
             Array[] arrayForReturn = new Array[2];
 
             switch (microphoneType)
@@ -177,7 +227,8 @@ namespace DirectCalc
                         for (int i = 0; i < count; i++)
                         {
                             double freq = minFrequency + (deltha / count) * (i + 1);
-                            array[i] = directivity(freq, microphoneType);
+                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
+
                             yAxisValues[i] = freq;
                             progressBar1.Value = i + 1;
                         }
@@ -189,7 +240,8 @@ namespace DirectCalc
                         for (int i = 0; i < count; i++)
                         {
                             double freq = minFrequency + (deltha / count) * (i + 1);
-                            array[i] = directivity(freq, microphoneType);
+                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
+
                             yAxisValues[i] = freq;
                             progressBar1.Value = i + 1;
                         }
@@ -204,7 +256,6 @@ namespace DirectCalc
                             double theta = Math.PI / (i / count);
 
                             double wavelenght = (double)331 / (double)freq;
-                            double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
 
                             double first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
                             double second = Math.Pow(wavelenght, 2.0);
@@ -240,6 +291,7 @@ namespace DirectCalc
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
+        /*
         private double dependence(double frequency, Int32 n, double d, double theta, MicrophoneType microphoneType)
         {
             double wavelenght = (double)331 / (double)frequency;
@@ -247,7 +299,7 @@ namespace DirectCalc
             /*
              * Микрофон органного типа
              * */
-            //*
+        /*
             double first = 0.0;
             double second = 0.0;
 
@@ -306,21 +358,29 @@ namespace DirectCalc
             double result = Math.Abs(first / second);
             return result;
         }
+         * */
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
+        /*
         private double directivity(double f, MicrophoneType microphoneType)
         {
             Int32 num = Convert.ToInt32(numberTextField.Text);
 
             double d = Convert.ToInt32(deltaTextField.Text) / (double)100;
-            double result;
+            double diameter = 0.0;
 
-            result = Integrate.OnClosedInterval(x => (Math.Pow(dependence(f, num, d, x, microphoneType), 2) * Math.Sin(x)), 0, Math.PI);
+            if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
+            {
+                diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+            }
+
+            double result = Integrate.OnClosedInterval(x => (Math.Pow(DirectivityController.CountDirectivityDependence(microphoneType, f, d, num, diameter, x), 2) * Math.Sin(x)), 0, Math.PI);
 
             double dd = 10 * Math.Log10(2 / result);
             return dd;
         }
+         * */
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -361,7 +421,8 @@ namespace DirectCalc
             else
                 button1.Enabled = true;
 
-            if (lineGroupRadioButton.Checked || organRadioButton.Checked){
+            if (lineGroupRadioButton.Checked || organRadioButton.Checked)
+            {
                 // labels
                 label1.Show();
                 label2.Show();
@@ -381,7 +442,9 @@ namespace DirectCalc
                 deltaTextField.Show();
                 diameterTextBox.Hide();
 
-            } else if (parabolicRadioButton.Checked) {
+            }
+            else if (parabolicRadioButton.Checked)
+            {
                 // labels
                 label1.Show();
                 label2.Hide();
@@ -408,11 +471,14 @@ namespace DirectCalc
             }
 
             // buttons
-                if (numberOfCheckedCheckboxes > 1 || numberOfCheckedCheckboxes < 1){
-                    button2.Enabled = false;
-                } else {
-                    button2.Enabled = true;
-                }
+            if (numberOfCheckedCheckboxes > 1 || numberOfCheckedCheckboxes < 1)
+            {
+                button2.Enabled = false;
+            }
+            else
+            {
+                button2.Enabled = true;
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////

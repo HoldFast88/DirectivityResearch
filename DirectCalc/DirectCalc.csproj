@@ -72,6 +72,8 @@
     <Compile Include="ap.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DirectivityController.cs" />
+    <Compile Include="IntelligibilityController.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -14,11 +14,11 @@ namespace DirectCalc
     {
         public double[] pointsArray;
         public System.String plotTitle;
-        public uint micType;
-        public uint frequency;
-        public uint count;
-        public uint tubesNumber;
-        public double deltha;
+        //public uint micType;
+        //public uint frequency;
+        //public uint count;
+        //public uint tubesNumber;
+        //public double deltha;
 
         public Form3()
         {
