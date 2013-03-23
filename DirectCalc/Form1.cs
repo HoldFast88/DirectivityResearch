@@ -103,37 +103,6 @@ namespace DirectCalc
                     plotTitle = "Параболический микрофон";
                 }
 
-                /*
-                 * Вычисление отношения площадей главного лепестка ДН и всех остальных
-                 * 
-                double minValue = 1.0;
-                double firstZeroAngle = 0.0;
-                int sss = array.Length;
-                for (int i = 0; i < array.Length; i++)
-                {
-                    double angle = ((double)i / (double)360) * 2 * Math.PI;
-                    double value = dependence(250, 40, 0.02, angle, MicrophoneType.MicrophoneTypeOrgan);
-
-                    if (value < minValue)
-                    {
-                        minValue = array[i];
-                    }
-
-                    if (value > minValue)
-                    {
-                        firstZeroAngle = angle;
-                        break;
-                    }
-                }
-
-
-
-                double mainDirection = Integrate.OnClosedInterval(x => dependence(250, 40, 0.02, x, MicrophoneType.MicrophoneTypeOrgan), -firstZeroAngle, firstZeroAngle);
-                double allDirections = Integrate.OnClosedInterval(x => dependence(250, 40, 0.02, x, MicrophoneType.MicrophoneTypeOrgan), 0, 2 * Math.PI);
-                double res = mainDirection / allDirections;
-                */
-
-
                 Form3 newMDIChild = new Form3();
 
                 newMDIChild.pointsArray = array;
@@ -156,6 +125,13 @@ namespace DirectCalc
                 deltha = Convert.ToInt32(deltaTextField.Text) / (double)100;
             }
 
+            double diameter = 0.0;
+
+            if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
+            {
+                diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+            }
+
             int count = 360;
 
             double[] array = new double[count];
@@ -168,13 +144,6 @@ namespace DirectCalc
                 double wavelenght = (double)((double)320 / (double)frequency);
                 //double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
                 double angle = ((double)i / (double)count) * 2 * pi;
-
-                double diameter = 0.0;
-
-                if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
-                {
-                    diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-                }
 
                 double value = DirectivityController.CountDirectivityDependence(microphoneType, frequency, deltha, tubesNumber, diameter, angle);
 
@@ -207,10 +176,15 @@ namespace DirectCalc
             double minFrequency = Convert.ToDouble(frequencyTextField.Text);
             double maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
             double deltha = maxFrequency - minFrequency;
+            Int32 num = 0;
+            double d = 0.0;
 
-            Int32 num = Convert.ToInt32(numberTextField.Text);
+            if (microphoneType != MicrophoneType.MicrophoneTypeParabolic)
+            {
+                num = Convert.ToInt32(numberTextField.Text);
 
-            double d = Convert.ToInt32(deltaTextField.Text) / (double)100;
+                d = Convert.ToInt32(deltaTextField.Text) / (double)100;
+            }
             double diameter = 0.0;
 
             if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
