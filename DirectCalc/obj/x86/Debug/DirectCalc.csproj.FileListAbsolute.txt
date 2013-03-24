@@ -67,12 +67,12 @@ C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\tr\Z
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\zh-cn\ZedGraph.resources.dll
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\zh-tw\ZedGraph.resources.dll
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Form1.resources
-C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Form2.resources
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Properties.Resources.resources
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\ResGen.read.1.tlog
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\ResGen.write.1.tlog
-C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Form3.resources
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\alglibnet2.dll
+C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.MainForm.resources
+C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.DirectivityDependence.resources
+C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.DirectivityDiagram.resources

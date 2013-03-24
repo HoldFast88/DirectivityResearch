@@ -1,6 +1,6 @@
 ﻿namespace DirectCalc
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -281,7 +281,7 @@
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -311,8 +311,7 @@
             this.Controls.Add(this.frequencyTextField);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.diameterTextBox);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

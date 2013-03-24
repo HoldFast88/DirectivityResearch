@@ -10,7 +10,7 @@ using ZedGraph;
 
 namespace DirectCalc
 {
-    public partial class Form3 : Form
+    public partial class DirectivityDiagram : Form
     {
         public double[] pointsArray;
         public System.String plotTitle;
@@ -20,7 +20,7 @@ namespace DirectCalc
         //public uint tubesNumber;
         //public double deltha;
 
-        public Form3()
+        public DirectivityDiagram()
         {
             InitializeComponent();
         }

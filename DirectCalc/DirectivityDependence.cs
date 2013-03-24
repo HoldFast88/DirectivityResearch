@@ -9,14 +9,16 @@ using ZedGraph;
 
 namespace DirectCalc
 {
-    public partial class Form2 : Form
+    partial class DirectivityDependence : Form
     {
         public Array[] arrayOfXValues;
         public Array[] arrayOfYValues;
+        public List<MicrophoneProperties> arrayOfProperties;
         public String[] arrayOfTitles;
+        public List<double> arrayOfMaxWorkingFrequecies;
         public System.String plotTitle;
 
-        public Form2()
+        public DirectivityDependence()
         {
             InitializeComponent();
         }
@@ -53,6 +55,8 @@ namespace DirectCalc
             myPane.XAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsVisible = true;
 
+            arrayOfMaxWorkingFrequecies = new List<double>();
+
             for (int i = 0; i < arrayOfXValues.Length; i++)
             {
                 double[] xValuesArray = (double[])arrayOfXValues[i];
@@ -72,6 +76,9 @@ namespace DirectCalc
                     }
                 }
                 xValue = xValuesArray[index];
+
+                // save max working freq for this microphone type
+                arrayOfMaxWorkingFrequecies.Add(xValue);
 
                 PointPairList list = new PointPairList(xValuesArray, yValuesArray);
                 LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
@@ -100,8 +107,76 @@ namespace DirectCalc
         {
             zedGraphControl1.Location = new Point(10, 10);
             // Leave a small margin around the outside of the control
-            zedGraphControl1.Size = new Size(ClientRectangle.Width - 20,
+            zedGraphControl1.Size = new Size(ClientRectangle.Width - 220,
                                     ClientRectangle.Height - 20);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void ShowAlert()
+        {
+            MessageBox.Show("Максимальная рабочая частота для рассчитываемого типа микрофона должна быть больше или равна 11200 Гц.", "Ошибка", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void button1_Click(object sender, EventArgs e) // count and show intelligibility
+        {
+            int count = arrayOfProperties.Count;
+
+            if (count >= 1)
+            {
+                if (arrayOfMaxWorkingFrequecies[0] < 11200.0)
+                {
+                    ShowAlert();
+                    return;
+                }
+
+                MicrophoneProperties property = arrayOfProperties[0];
+                double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
+
+                firstTypeValue.Visible = true;
+                firstTypeMicrophoneNameLabel.Visible = true;
+
+                firstTypeMicrophoneNameLabel.Text = arrayOfTitles[0];
+                firstTypeValue.Text = Convert.ToString(value);
+            }
+
+            if (count >= 2)
+            {
+                if (arrayOfMaxWorkingFrequecies[1] < 11200.0)
+                {
+                    ShowAlert();
+                    return;
+                }
+
+                MicrophoneProperties property = arrayOfProperties[1];
+                double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
+
+                secondTypeValue.Visible = true;
+                secondTypeMicrophoneNameLabel.Visible = true;
+
+                secondTypeMicrophoneNameLabel.Text = arrayOfTitles[1];
+                secondTypeValue.Text = Convert.ToString(value);
+            }
+
+            if (count >= 3)
+            {
+                if (arrayOfMaxWorkingFrequecies[2] < 11200.0)
+                {
+                    ShowAlert();
+                    return;
+                }
+
+                MicrophoneProperties property = arrayOfProperties[2];
+                double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
+
+                thirdTypeValue.Visible = true;
+                thirdTypeMicrophoneNameLabel.Visible = true;
+
+                thirdTypeMicrophoneNameLabel.Text = arrayOfTitles[2];
+                thirdTypeValue.Text = Convert.ToString(value);
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////

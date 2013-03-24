@@ -1,6 +1,6 @@
 ﻿namespace DirectCalc
 {
-    partial class Form3
+    partial class DirectivityDiagram
     {
         /// <summary>
         /// Required designer variable.
@@ -45,14 +45,14 @@
             this.zedGraphControl1.Size = new System.Drawing.Size(592, 514);
             this.zedGraphControl1.TabIndex = 1;
             // 
-            // Form3
+            // DirectivityDiagram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(616, 538);
             this.Controls.Add(this.zedGraphControl1);
-            this.Name = "Form3";
-            this.Text = "Form3";
+            this.Name = "DirectivityDiagram";
+            this.Text = "Диаграмма направленности";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.Resize += new System.EventHandler(this.Form3_Resize);
             this.ResumeLayout(false);

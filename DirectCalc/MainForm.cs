@@ -18,9 +18,9 @@ namespace DirectCalc
         MicrophoneTypeParabolic = 2
     };
 
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -34,17 +34,21 @@ namespace DirectCalc
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
             bool isDiameterFieldIsEmpty = diameterTextBox.Text.Length == 0;
 
-            Form2 newMDIChild = new Form2();
+            DirectivityDependence newMDIChild = new DirectivityDependence();
 
             int numberOfCheckedCheckboxes = Convert.ToInt32(checkBox1.Checked) + Convert.ToInt32(checkBox2.Checked) + Convert.ToInt32(checkBox3.Checked);
             Array[] arrayOfXPoints = new Array[numberOfCheckedCheckboxes];
             Array[] arrayOfYPoints = new Array[numberOfCheckedCheckboxes];
+            List<MicrophoneProperties> arrayOfProperties = new List<MicrophoneProperties>();
             String[] arrayOfTitles = new String[numberOfCheckedCheckboxes];
 
             int index = 0;
 
             if (checkBox1.Checked) // linear mic
             {
+                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, (Convert.ToInt32(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
+                arrayOfProperties.Add(properties);
+
                 Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
                 arrayOfYPoints[index] = array[0];
                 arrayOfXPoints[index] = array[1];
@@ -54,6 +58,9 @@ namespace DirectCalc
 
             if (checkBox2.Checked) // organ mic
             {
+                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, (Convert.ToInt32(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
+                arrayOfProperties.Add(properties);
+
                 Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
                 arrayOfYPoints[index] = array[0];
                 arrayOfXPoints[index] = array[1];
@@ -61,8 +68,12 @@ namespace DirectCalc
                 index++;
             }
 
-            if (checkBox3.Checked) // organ mic
+            if (checkBox3.Checked) // parabolic mic
             {
+                double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
+                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0.0, 0, diameter);
+                arrayOfProperties.Add(properties);
+
                 Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeParabolic);
                 arrayOfYPoints[index] = array[0];
                 arrayOfXPoints[index] = array[1];
@@ -70,6 +81,7 @@ namespace DirectCalc
                 index++;
             }
 
+            newMDIChild.arrayOfProperties = arrayOfProperties;
             newMDIChild.arrayOfXValues = arrayOfXPoints;
             newMDIChild.arrayOfYValues = arrayOfYPoints;
             newMDIChild.arrayOfTitles = arrayOfTitles;
@@ -103,7 +115,7 @@ namespace DirectCalc
                     plotTitle = "Параболический микрофон";
                 }
 
-                Form3 newMDIChild = new Form3();
+                DirectivityDiagram newMDIChild = new DirectivityDiagram();
 
                 newMDIChild.pointsArray = array;
                 newMDIChild.plotTitle = plotTitle;
@@ -116,8 +128,8 @@ namespace DirectCalc
         private System.Array createArrayForDirectivityPlot(MicrophoneType microphoneType) // using for building directivity plot
         {
             int frequency = Convert.ToInt32(frequencyField.Text);
-            Int32 tubesNumber = 0;// = Convert.ToInt32(numberTextField.Text);
-            double deltha = 0;// = Convert.ToInt32(deltaTextField.Text) / (double)100;
+            Int32 tubesNumber = 0;
+            double deltha = 0;
 
             if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
             {
