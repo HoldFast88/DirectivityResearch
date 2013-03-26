@@ -10,15 +10,11 @@ using ZedGraph;
 
 namespace DirectCalc
 {
-    public partial class DirectivityDiagram : Form
+    partial class DirectivityDiagram : Form
     {
         public double[] pointsArray;
-        public System.String plotTitle;
-        //public uint micType;
-        //public uint frequency;
-        //public uint count;
-        //public uint tubesNumber;
-        //public double deltha;
+        public Microphone microphone;
+        public UInt32 frequency;
 
         public DirectivityDiagram()
         {
@@ -29,6 +25,47 @@ namespace DirectCalc
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            RedrawPlot();
+
+            frequencyNumeric.Value = frequency;
+            if (microphone.properties.microphoneType == MicrophoneType.MicrophoneTypeParabolic)
+            {
+                countNumeric.Enabled = false;
+                delthaNumeric.Enabled = false;
+                diameterNumeric.Enabled = true;
+            }
+            else
+            {
+                countNumeric.Enabled = true;
+                delthaNumeric.Enabled = true;
+                diameterNumeric.Enabled = false;
+            }
+
+            countNumeric.Value = microphone.properties.count;
+            delthaNumeric.Value = Convert.ToDecimal(microphone.properties.deltha);
+            diameterNumeric.Value = Convert.ToDecimal(microphone.properties.diameter);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void RedrawPlot()
+        {
+            GraphPane pane = zedGraphControl1.GraphPane;
+
+            // Если есть что удалять
+            if (pane.CurveList.Count > 0)
+            {
+                for (int i = 0; i < pane.CurveList.Count; i++)
+                {
+                    // Удалим кривую по индексу
+                    pane.CurveList.RemoveAt(i);
+
+                    // Обновим график
+                    zedGraphControl1.AxisChange();
+                    zedGraphControl1.Invalidate();
+                }
+            }
+
             // Setup the graph
             CreateGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
@@ -48,7 +85,7 @@ namespace DirectCalc
         {
             zedGraphControl1.Location = new Point(10, 10);
             // Leave a small margin around the outside of the control
-            zedGraphControl1.Size = new Size(ClientRectangle.Width - 20,
+            zedGraphControl1.Size = new Size(ClientRectangle.Width - 217,
                                     ClientRectangle.Height - 20);
         }
 
@@ -61,7 +98,7 @@ namespace DirectCalc
             GraphPane myPane = zgc.GraphPane;
 
             // Set the Titles
-            myPane.Title.Text = plotTitle;
+            myPane.Title.Text = microphone.title;
             myPane.XAxis.Title.Text = "";
             myPane.YAxis.Title.Text = "";
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -94,6 +131,18 @@ namespace DirectCalc
 
             zgc.AxisChange();
             zgc.Invalidate();
+        }
+
+        private void ValueChanged(object sender, EventArgs e)
+        {
+            microphone.properties.count = Convert.ToInt32(countNumeric.Value);
+            microphone.properties.deltha = Convert.ToDouble(delthaNumeric.Value) / 100.0;
+            microphone.properties.diameter = Convert.ToDouble(diameterNumeric.Value) / 100.0;
+            frequency = Convert.ToUInt32(frequencyNumeric.Value);
+
+            pointsArray = (double[])microphone.createArrayForDirectivityPlot(frequency);
+
+            RedrawPlot();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////

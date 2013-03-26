@@ -34,6 +34,11 @@ namespace DirectCalc
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
             bool isDiameterFieldIsEmpty = diameterTextBox.Text.Length == 0;
 
+            if (isMinimumFrequencyFieldIsEmpty || isMaximumFrequencyFieldIsEmpty)
+            {
+                return;
+            }
+
             DirectivityDependence newMDIChild = new DirectivityDependence();
 
             int numberOfCheckedCheckboxes = Convert.ToInt32(checkBox1.Checked) + Convert.ToInt32(checkBox2.Checked) + Convert.ToInt32(checkBox3.Checked);
@@ -90,90 +95,53 @@ namespace DirectCalc
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) // build directivity diagram
         {
             bool isFrequencyFieldIsEmpty = frequencyField.Text.Length == 0;
 
             if (!isFrequencyFieldIsEmpty)
             {
-                double[] array = null;// = (double[])createArrayForDirectivityPlot();
+                double[] array = null;
                 System.String plotTitle = "";
+                Microphone microphone;
+                MicrophoneProperties properties = null;
+
+                UInt32 frequency = Convert.ToUInt32(frequencyField.Text);
+                Int32 tubesNumber = 0;
+                double deltha = 0;
+
+                if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
+                {
+                    tubesNumber = Convert.ToInt32(numberTextField.Text);
+                    deltha = Convert.ToDouble(deltaTextField.Text) / (double)100;
+                }
 
                 if (organRadioButton.Checked)
                 {
-                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeOrgan);
                     plotTitle = "Микрофон органного типа";
+                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, deltha, tubesNumber, 0);
                 }
                 else if (lineGroupRadioButton.Checked)
                 {
-                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeLinear);
                     plotTitle = "Линейная группа микрофонов";
+                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, deltha, tubesNumber, 0);
                 }
                 else if (parabolicRadioButton.Checked)
                 {
-                    array = (double[])createArrayForDirectivityPlot(MicrophoneType.MicrophoneTypeParabolic);
+                    double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
                     plotTitle = "Параболический микрофон";
+                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0, 0, diameter);
                 }
+
+                microphone = new Microphone(plotTitle, properties);
 
                 DirectivityDiagram newMDIChild = new DirectivityDiagram();
 
-                newMDIChild.pointsArray = array;
-                newMDIChild.plotTitle = plotTitle;
+                newMDIChild.pointsArray = (double[])microphone.createArrayForDirectivityPlot(frequency);
+                newMDIChild.microphone = microphone;
+                newMDIChild.frequency = frequency;
                 newMDIChild.Show();
             }
-        }
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-        private System.Array createArrayForDirectivityPlot(MicrophoneType microphoneType) // using for building directivity plot
-        {
-            int frequency = Convert.ToInt32(frequencyField.Text);
-            Int32 tubesNumber = 0;
-            double deltha = 0;
-
-            if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
-            {
-                tubesNumber = Convert.ToInt32(numberTextField.Text);
-                deltha = Convert.ToDouble(deltaTextField.Text) / (double)100;
-            }
-
-            double diameter = 0.0;
-
-            if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
-            {
-                diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-            }
-
-            int count = 360;
-
-            double[] array = new double[count];
-            double pi = Math.PI;
-
-            progressBar1.Maximum = count;
-            double maxValue = 0;
-            for (int i = 0; i < count; i++)
-            {
-                double wavelenght = (double)((double)320 / (double)frequency);
-                //double x = pi * deltha * (1 - Math.Cos(i * pi / 180)) / wavelenght;
-                double angle = ((double)i / (double)count) * 2 * pi;
-
-                double value = DirectivityController.CountDirectivityDependence(microphoneType, frequency, deltha, tubesNumber, diameter, angle);
-
-                array[i] = value;
-                if (value > maxValue)
-                    maxValue = value;
-
-                progressBar1.Value = i;
-            }
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                double element = array[i];
-                array[i] = element / maxValue;
-            }
-
-            progressBar1.Value = 0;
-            return array;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////

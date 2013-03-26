@@ -115,7 +115,7 @@ namespace DirectCalc
 
         private void ShowAlert()
         {
-            MessageBox.Show("Максимальная рабочая частота для рассчитываемого типа микрофона должна быть больше или равна 11200 Гц.", "Ошибка", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            MessageBox.Show("Максимальная рабочая частота для рассчитываемого типа микрофона должна быть больше или равна 5600 Гц.", "Ошибка", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////

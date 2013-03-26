@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Mic.ico</ApplicationIcon>
+    <ApplicationIcon>Supporting files\Mic.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2">
@@ -66,43 +66,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="alglibinternal.cs">
+    <Compile Include="Models\Microphone.cs" />
+    <Compile Include="Supporting files\alglibinternal.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ap.cs">
+    <Compile Include="Supporting files\ap.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MicrophoneProperties.cs" />
-    <Compile Include="DirectivityController.cs" />
-    <Compile Include="IntelligibilityController.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Models\MicrophoneProperties.cs" />
+    <Compile Include="Controllers\DirectivityController.cs" />
+    <Compile Include="Controllers\IntelligibilityController.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DirectivityDependence.cs">
+    <Compile Include="Forms\DirectivityDependence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DirectivityDependence.Designer.cs">
+    <Compile Include="Forms\DirectivityDependence.Designer.cs">
       <DependentUpon>DirectivityDependence.cs</DependentUpon>
     </Compile>
-    <Compile Include="DirectivityDiagram.cs">
+    <Compile Include="Forms\DirectivityDiagram.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DirectivityDiagram.Designer.cs">
+    <Compile Include="Forms\DirectivityDiagram.Designer.cs">
       <DependentUpon>DirectivityDiagram.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Supporting files\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="specialfunctions.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <Compile Include="Supporting files\specialfunctions.cs" />
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DirectivityDependence.resx">
+    <EmbeddedResource Include="Forms\DirectivityDependence.resx">
       <DependentUpon>DirectivityDependence.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DirectivityDiagram.resx">
+    <EmbeddedResource Include="Forms\DirectivityDiagram.resx">
       <DependentUpon>DirectivityDiagram.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -115,7 +116,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="Supporting files\app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -127,7 +128,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mic.ico" />
+    <Content Include="Supporting files\Mic.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
