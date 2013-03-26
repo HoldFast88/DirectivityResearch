@@ -126,7 +126,7 @@ namespace DirectCalc
 
             if (count >= 1)
             {
-                if (arrayOfMaxWorkingFrequecies[0] < 11200.0)
+                if (arrayOfMaxWorkingFrequecies[0] < 5600.0)
                 {
                     ShowAlert();
                     return;
@@ -144,7 +144,7 @@ namespace DirectCalc
 
             if (count >= 2)
             {
-                if (arrayOfMaxWorkingFrequecies[1] < 11200.0)
+                if (arrayOfMaxWorkingFrequecies[1] < 5600.0)
                 {
                     ShowAlert();
                     return;
@@ -162,7 +162,7 @@ namespace DirectCalc
 
             if (count >= 3)
             {
-                if (arrayOfMaxWorkingFrequecies[2] < 11200.0)
+                if (arrayOfMaxWorkingFrequecies[2] < 5600.0)
                 {
                     ShowAlert();
                     return;

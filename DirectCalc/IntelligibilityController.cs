@@ -13,19 +13,19 @@ namespace DirectCalc
              * Set center and border frequencies for bands.
              */
 
-            double[] frequencyBorders = { 90.0, 175.0,
+            double[] frequencyBorders = {/* 90.0, 175.0,*/
                                                     175.0, 355.0,
                                                     355.0, 710.0,
                                                     710.0, 1400.0,
                                                     1400.0, 2800.0,
                                                     2800.0, 5600.0,
-                                                    5600.0, 11200.0 };
+                                                   /* 5600.0, 11200.0 */};
 
-            double[] centerFrequencies = { 125.0, 250.0, 500.0, 1000.0, 2000.0, 4000.0, 8000.0 };
+            double[] centerFrequencies = {/* 125.0, */250.0, 500.0, 1000.0, 2000.0, 4000.0/*, 8000.0 */};
 
-            double[] weightCoefficients = { 0.01, 0.03, 0.12, 0.20, 0.30, 0.26, 0.07 };
+            double[] weightCoefficients = {/* 0.01, */0.03, 0.12, 0.20, 0.30, 0.26/*, 0.07 */};
 
-            double[] formantParameters = { 25.0, 18.0, 14.0, 9.0, 6.0, 5.0, 4.0 };
+            double[] formantParameters = {/* 25.0, */18.0, 14.0, 9.0, 6.0, 5.0/*, 4.0 */};
 
             /*
              * Count coefficients of perception for each band.

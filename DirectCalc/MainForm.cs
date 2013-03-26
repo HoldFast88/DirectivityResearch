@@ -46,7 +46,7 @@ namespace DirectCalc
 
             if (checkBox1.Checked) // linear mic
             {
-                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, (Convert.ToInt32(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
+                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
                 arrayOfProperties.Add(properties);
 
                 Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
@@ -58,7 +58,7 @@ namespace DirectCalc
 
             if (checkBox2.Checked) // organ mic
             {
-                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, (Convert.ToInt32(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
+                MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
                 arrayOfProperties.Add(properties);
 
                 Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
@@ -134,7 +134,7 @@ namespace DirectCalc
             if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
             {
                 tubesNumber = Convert.ToInt32(numberTextField.Text);
-                deltha = Convert.ToInt32(deltaTextField.Text) / (double)100;
+                deltha = Convert.ToDouble(deltaTextField.Text) / (double)100;
             }
 
             double diameter = 0.0;
@@ -195,7 +195,7 @@ namespace DirectCalc
             {
                 num = Convert.ToInt32(numberTextField.Text);
 
-                d = Convert.ToInt32(deltaTextField.Text) / (double)100;
+                d = Convert.ToDouble(deltaTextField.Text) / (double)100;
             }
             double diameter = 0.0;
 
