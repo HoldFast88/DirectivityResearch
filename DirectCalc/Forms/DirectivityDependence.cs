@@ -11,12 +11,12 @@ namespace DirectCalc
 {
     partial class DirectivityDependence : Form
     {
-        public Array[] arrayOfXValues;
-        public Array[] arrayOfYValues;
-        public List<MicrophoneProperties> arrayOfProperties;
-        public String[] arrayOfTitles;
         public List<double> arrayOfMaxWorkingFrequecies;
         public System.String plotTitle;
+
+        public double maxFrequency;
+        public double minFrequency;
+        public List<Microphone> microphonesList;
 
         public DirectivityDependence()
         {
@@ -27,6 +27,29 @@ namespace DirectCalc
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            RebuildGraph();
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void RebuildGraph()
+        {
+            GraphPane pane = zedGraphControl1.GraphPane;
+
+            // Если есть что удалять
+            if (pane.CurveList.Count > 0)
+            {
+                for (int i = 0; i < pane.CurveList.Count; i++)
+                {
+                    // Удалим кривую по индексу
+                    pane.CurveList.RemoveAt(i);
+
+                    // Обновим график
+                    zedGraphControl1.AxisChange();
+                    zedGraphControl1.Invalidate();
+                }
+            }
+
             // Setup the graph
             CreateGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
@@ -57,11 +80,16 @@ namespace DirectCalc
 
             arrayOfMaxWorkingFrequecies = new List<double>();
 
-            for (int i = 0; i < arrayOfXValues.Length; i++)
+            for (int i = 0; i < microphonesList.Count; i++)
             {
-                double[] xValuesArray = (double[])arrayOfXValues[i];
-                double[] yValuesArray = (double[])arrayOfYValues[i];
-                String title = arrayOfTitles[i];
+                Microphone microphone = microphonesList[i];
+
+                Array[] array = microphone.buildDirectivityDepencity(minFrequency, maxFrequency);
+
+                double[] xValuesArray = (double[])array[1];
+                double[] yValuesArray = (double[])array[0];
+
+                String title = microphone.title;
 
                 // search for biggest Y value, which represents max working frequency
                 double maxYValue = 0;
@@ -122,7 +150,7 @@ namespace DirectCalc
 
         private void button1_Click(object sender, EventArgs e) // count and show intelligibility
         {
-            int count = arrayOfProperties.Count;
+            int count = microphonesList.Count;
 
             if (count >= 1)
             {
@@ -132,13 +160,15 @@ namespace DirectCalc
                     return;
                 }
 
-                MicrophoneProperties property = arrayOfProperties[0];
+                Microphone microphone = microphonesList[0];
+
+                MicrophoneProperties property = microphone.properties;
                 double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
 
                 firstTypeValue.Visible = true;
                 firstTypeMicrophoneNameLabel.Visible = true;
 
-                firstTypeMicrophoneNameLabel.Text = arrayOfTitles[0];
+                firstTypeMicrophoneNameLabel.Text = microphone.title;
                 firstTypeValue.Text = Convert.ToString(value);
             }
 
@@ -150,13 +180,15 @@ namespace DirectCalc
                     return;
                 }
 
-                MicrophoneProperties property = arrayOfProperties[1];
+                Microphone microphone = microphonesList[1];
+
+                MicrophoneProperties property = microphone.properties;
                 double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
 
                 secondTypeValue.Visible = true;
                 secondTypeMicrophoneNameLabel.Visible = true;
 
-                secondTypeMicrophoneNameLabel.Text = arrayOfTitles[1];
+                secondTypeMicrophoneNameLabel.Text = microphone.title;
                 secondTypeValue.Text = Convert.ToString(value);
             }
 
@@ -168,13 +200,15 @@ namespace DirectCalc
                     return;
                 }
 
-                MicrophoneProperties property = arrayOfProperties[2];
+                Microphone microphone = microphonesList[2];
+
+                MicrophoneProperties property = microphone.properties;
                 double value = IntelligibilityController.CountIntelligibility(property.microphoneType, property.deltha, property.count, property.diameter);
 
                 thirdTypeValue.Visible = true;
                 thirdTypeMicrophoneNameLabel.Visible = true;
 
-                thirdTypeMicrophoneNameLabel.Text = arrayOfTitles[2];
+                thirdTypeMicrophoneNameLabel.Text = microphone.title;
                 thirdTypeValue.Text = Convert.ToString(value);
             }
         }

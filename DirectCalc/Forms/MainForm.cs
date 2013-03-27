@@ -42,54 +42,45 @@ namespace DirectCalc
             DirectivityDependence newMDIChild = new DirectivityDependence();
 
             int numberOfCheckedCheckboxes = Convert.ToInt32(checkBox1.Checked) + Convert.ToInt32(checkBox2.Checked) + Convert.ToInt32(checkBox3.Checked);
-            Array[] arrayOfXPoints = new Array[numberOfCheckedCheckboxes];
-            Array[] arrayOfYPoints = new Array[numberOfCheckedCheckboxes];
-            List<MicrophoneProperties> arrayOfProperties = new List<MicrophoneProperties>();
-            String[] arrayOfTitles = new String[numberOfCheckedCheckboxes];
+
+            List<Microphone> microphonesList = new List<Microphone>();
 
             int index = 0;
 
             if (checkBox1.Checked) // linear mic
             {
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
-                arrayOfProperties.Add(properties);
+                String title = "Линейная группа микрофонов";
 
-                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeLinear);
-                arrayOfYPoints[index] = array[0];
-                arrayOfXPoints[index] = array[1];
-                arrayOfTitles[index] = "Линейная группа микрофонов";
-                index++;
+                Microphone microphone = new Microphone(title, properties);
+
+                microphonesList.Add(microphone);
             }
 
             if (checkBox2.Checked) // organ mic
             {
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
-                arrayOfProperties.Add(properties);
+                String title = "Микрофон органного типа";
 
-                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeOrgan);
-                arrayOfYPoints[index] = array[0];
-                arrayOfXPoints[index] = array[1];
-                arrayOfTitles[index] = "Микрофон органного типа";
-                index++;
+                Microphone microphone = new Microphone(title, properties);
+
+                microphonesList.Add(microphone);
             }
 
             if (checkBox3.Checked) // parabolic mic
             {
                 double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0.0, 0, diameter);
-                arrayOfProperties.Add(properties);
+                String title = "Параболический микрофон";
 
-                Array[] array = buildDirectivityDepencity(MicrophoneType.MicrophoneTypeParabolic);
-                arrayOfYPoints[index] = array[0];
-                arrayOfXPoints[index] = array[1];
-                arrayOfTitles[index] = "Параболический микрофон";
-                index++;
+                Microphone microphone = new Microphone(title, properties);
+
+                microphonesList.Add(microphone);
             }
 
-            newMDIChild.arrayOfProperties = arrayOfProperties;
-            newMDIChild.arrayOfXValues = arrayOfXPoints;
-            newMDIChild.arrayOfYValues = arrayOfYPoints;
-            newMDIChild.arrayOfTitles = arrayOfTitles;
+            newMDIChild.maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
+            newMDIChild.minFrequency = Convert.ToDouble(frequencyTextField.Text);
+            newMDIChild.microphonesList = microphonesList;
             newMDIChild.Show();
         }
 
@@ -145,7 +136,7 @@ namespace DirectCalc
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-
+        /*
         private Array[] buildDirectivityDepencity(MicrophoneType microphoneType)
         {
             int count = 1000;
@@ -234,15 +225,8 @@ namespace DirectCalc
             arrayForReturn[1] = yAxisValues;
 
             return arrayForReturn;
-            //System.String plotTitle = "";
-            /*
-            newMDIChild.pointsArray = array;
-            newMDIChild.yAxisValues = yAxisValues;
-            newMDIChild.plotTitle = plotTitle;
-            newMDIChild.Show();
-             */
         }
-
+        */
         /////////////////////////////////////////////////////////////////////////////////////////////
 
         private void Form1_Load(object sender, EventArgs e)

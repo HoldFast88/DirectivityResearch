@@ -37,14 +37,14 @@ namespace DirectCalc
             {
                 double frequency = centerFrequencies[i];
                 double SNR = DirectivityController.CountDirectivityRate(microphoneType, frequency, deltha, count, diameter); // dB
-                //double SNR = 2 / Math.Pow( 10, SNRdB / 10 );
 
                 double val = formantParameters[i];
                 double Q = SNR - val;
 
                 double coefficientOfPerception = 0.0;
 
-                double constDependance = (0.78 + 5.46 * Math.Exp(-4.3 * Math.Pow(10, -3) * (27.3 - Math.Pow(Math.Abs(Q), 2)))) / (1 + Math.Pow(10, 0.1 * Math.Abs(Q)));
+                double qAbsValue = Math.Abs(Q);
+                double constDependance = (0.78 + 5.46 * Math.Exp(-4.3 * Math.Pow(10, -3) * (27.3 - qAbsValue * qAbsValue))) / (1 + Math.Pow(10, 0.1 * qAbsValue));
 
                 if (Q <= 0)
                 {
