@@ -27,6 +27,13 @@ namespace DirectCalc
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            for (int i = 0; i < microphonesList.Count; i++)
+            {
+                Microphone microphone = microphonesList[i];
+
+                microphone.buildDirectivityDepencity(minFrequency, maxFrequency);
+            }
+
             RebuildGraph();
         }
 
@@ -67,6 +74,20 @@ namespace DirectCalc
 
         private void CreateGraph(ZedGraphControl zgc)
         {
+            /*
+            for (int i = 0; i < microphonesList.Count; i++)
+            {
+                Microphone mic = microphonesList[i];
+                checkedListBox1.Items.Add(mic.title);
+            }
+
+            // set all checked
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                checkedListBox1.SetItemChecked(i, true);
+            }
+             * */
+
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;
             zedGraphControl1.GraphPane.CurveList.Clear();
@@ -84,10 +105,10 @@ namespace DirectCalc
             {
                 Microphone microphone = microphonesList[i];
 
-                Array[] array = microphone.buildDirectivityDepencity(minFrequency, maxFrequency);
+                //microphone.buildDirectivityDepencity(minFrequency, maxFrequency);
 
-                double[] xValuesArray = (double[])array[1];
-                double[] yValuesArray = (double[])array[0];
+                double[] xValuesArray = microphone.frequinciesList;
+                double[] yValuesArray = microphone.directivityValuesList;
 
                 String title = microphone.title;
 
@@ -157,7 +178,7 @@ namespace DirectCalc
                 if (arrayOfMaxWorkingFrequecies[0] < 5600.0)
                 {
                     ShowAlert();
-                    return;
+                    //return;
                 }
 
                 Microphone microphone = microphonesList[0];
@@ -177,7 +198,7 @@ namespace DirectCalc
                 if (arrayOfMaxWorkingFrequecies[1] < 5600.0)
                 {
                     ShowAlert();
-                    return;
+                    //return;
                 }
 
                 Microphone microphone = microphonesList[1];
@@ -197,7 +218,7 @@ namespace DirectCalc
                 if (arrayOfMaxWorkingFrequecies[2] < 5600.0)
                 {
                     ShowAlert();
-                    return;
+                    //return;
                 }
 
                 Microphone microphone = microphonesList[2];
@@ -211,6 +232,24 @@ namespace DirectCalc
                 thirdTypeMicrophoneNameLabel.Text = microphone.title;
                 thirdTypeValue.Text = Convert.ToString(value);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e) // add noise
+        {
+            // пройти по всем микрофонам, рассчитать зависимость величины шума от направления для каждого
+            double noiseLevel = Convert.ToDouble(noiseLevelTextFiels.Text);
+            double noiseDirection = Convert.ToDouble(noiseDirectionalTextField.Text);
+
+            foreach (Microphone microphone in microphonesList)
+            {
+                //double[] coefficients = microphone.createArrayForDirectivityPlot(frequency);
+
+                Noise noise = new Noise(NoiseType.NoiseTypeBrown);
+                noise.rate = noiseLevel;
+                microphone.AddNoise(noise);
+            }
+
+            RebuildGraph();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////

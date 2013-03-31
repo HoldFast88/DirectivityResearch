@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.button1 = new System.Windows.Forms.Button();
             this.firstTypeMicrophoneNameLabel = new System.Windows.Forms.Label();
@@ -36,6 +37,11 @@
             this.firstTypeValue = new System.Windows.Forms.Label();
             this.secondTypeValue = new System.Windows.Forms.Label();
             this.thirdTypeValue = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.noiseLevelTextFiels = new System.Windows.Forms.TextBox();
+            this.noiseDirectionalTextField = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // zedGraphControl1
@@ -126,11 +132,58 @@
             this.thirdTypeValue.Text = "label1";
             this.thirdTypeValue.Visible = false;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(581, 492);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(172, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Добавить шум";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // noiseLevelTextFiels
+            // 
+            this.noiseLevelTextFiels.Location = new System.Drawing.Point(581, 419);
+            this.noiseLevelTextFiels.Name = "noiseLevelTextFiels";
+            this.noiseLevelTextFiels.Size = new System.Drawing.Size(172, 20);
+            this.noiseLevelTextFiels.TabIndex = 9;
+            // 
+            // noiseDirectionalTextField
+            // 
+            this.noiseDirectionalTextField.Location = new System.Drawing.Point(581, 466);
+            this.noiseDirectionalTextField.Name = "noiseDirectionalTextField";
+            this.noiseDirectionalTextField.Size = new System.Drawing.Size(172, 20);
+            this.noiseDirectionalTextField.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(575, 393);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Уровень шума, дБ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(578, 442);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(134, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Направление шума, град";
+            // 
             // DirectivityDependence
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 533);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.noiseDirectionalTextField);
+            this.Controls.Add(this.noiseLevelTextFiels);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.thirdTypeValue);
             this.Controls.Add(this.secondTypeValue);
             this.Controls.Add(this.firstTypeValue);
@@ -158,5 +211,10 @@
         private System.Windows.Forms.Label firstTypeValue;
         private System.Windows.Forms.Label secondTypeValue;
         private System.Windows.Forms.Label thirdTypeValue;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox noiseLevelTextFiels;
+        private System.Windows.Forms.TextBox noiseDirectionalTextField;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

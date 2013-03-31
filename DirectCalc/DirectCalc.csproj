@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Noise.cs" />
     <Compile Include="Models\Microphone.cs" />
     <Compile Include="Supporting files\alglibinternal.cs">
       <SubType>Code</SubType>

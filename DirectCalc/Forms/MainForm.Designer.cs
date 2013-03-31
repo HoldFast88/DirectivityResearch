@@ -37,7 +37,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.frequencyMaxTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -128,13 +127,6 @@
             this.label4.Size = new System.Drawing.Size(16, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "to";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(13, 302);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(309, 23);
-            this.progressBar1.TabIndex = 10;
             // 
             // label5
             // 
@@ -285,7 +277,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 336);
+            this.ClientSize = new System.Drawing.Size(336, 297);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label10);
@@ -301,7 +293,6 @@
             this.Controls.Add(this.lineGroupRadioButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.frequencyMaxTextBox);
             this.Controls.Add(this.label3);
@@ -329,7 +320,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox frequencyMaxTextBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;

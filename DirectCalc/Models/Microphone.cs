@@ -9,6 +9,8 @@ namespace DirectCalc
     {
         public MicrophoneProperties properties;
         public String title;
+        public double[] frequinciesList;
+        public double[] directivityValuesList;
 
         public Microphone() { }
 
@@ -18,6 +20,16 @@ namespace DirectCalc
             properties = _properties;
         }
 
+        public void AddNoise(Noise noise)
+        {
+            noise.sourceMicrophone = this;
+            noise.FormNoise();
+
+            for (int i = 0; i < noise.noiseArray.Count; i++)
+            {
+                directivityValuesList[i] += noise.noiseArray[i];
+            }
+        }
 
         public System.Array createArrayForDirectivityPlot(UInt32 frequency)
         {
@@ -49,17 +61,18 @@ namespace DirectCalc
         }
 
 
-        public Array[] buildDirectivityDepencity(double minimumFrequency, double maximumFrequency)
+        public void buildDirectivityDepencity(double minimumFrequency, double maximumFrequency)
         {
             int count = 1000;
-            double[] array = new double[count];
-            double[] yAxisValues = new double[count];
 
             double deltha = maximumFrequency - minimumFrequency;
             Int32 num = this.properties.count;
             double d = this.properties.deltha;
             MicrophoneType microphoneType = this.properties.microphoneType;
             double diameter = this.properties.diameter;
+
+            frequinciesList = new double[count];
+            directivityValuesList = new double[count];
 
             Array[] arrayForReturn = new Array[2];
 
@@ -70,9 +83,8 @@ namespace DirectCalc
                         for (int i = 0; i < count; i++)
                         {
                             double freq = minimumFrequency + (deltha / count) * (i + 1);
-                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
-
-                            yAxisValues[i] = freq;
+                            directivityValuesList[i] = (DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter));
+                            frequinciesList[i] = freq;
                         }
                     }
                     break;
@@ -82,9 +94,8 @@ namespace DirectCalc
                         for (int i = 0; i < count; i++)
                         {
                             double freq = minimumFrequency + (deltha / count) * (i + 1);
-                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
-
-                            yAxisValues[i] = freq;
+                            directivityValuesList[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
+                            frequinciesList[i] = freq;
                         }
                     }
                     break;
@@ -101,9 +112,8 @@ namespace DirectCalc
                             double first = 5 * Math.PI * ((diameter / 2) * (diameter / 2));
                             double second = wavelenght * wavelenght; // wavelenght ^ 2
 
-                            array[i] = 10 * Math.Log10(Math.Abs(first / second));
-
-                            yAxisValues[i] = freq;
+                            directivityValuesList[i] = 10 * Math.Log10(Math.Abs(first / second));
+                            frequinciesList[i] = freq;
                         }
                     }
                     break;
@@ -113,11 +123,6 @@ namespace DirectCalc
                     }
                     break;
             }
-
-            arrayForReturn[0] = array;
-            arrayForReturn[1] = yAxisValues;
-
-            return arrayForReturn;
         }
     }
 }
