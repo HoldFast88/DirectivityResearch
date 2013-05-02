@@ -18,10 +18,14 @@ namespace DirectCalc
         MicrophoneTypeParabolic = 2
     };
 
-    public partial class MainForm : Form
+    partial class MainForm : Form
     {
+        public bool isOpenedForAddingGraph;
+        public DirectivityDependence dependenceForm;
+
         public MainForm()
         {
+            isOpenedForAddingGraph = false;
             InitializeComponent();
         }
 
@@ -80,7 +84,22 @@ namespace DirectCalc
 
             newMDIChild.maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
             newMDIChild.minFrequency = Convert.ToDouble(frequencyTextField.Text);
-            newMDIChild.microphonesList = microphonesList;
+            if (isOpenedForAddingGraph && dependenceForm != null)
+            {
+                foreach (Microphone mic in microphonesList)
+                {
+                    mic.buildDirectivityDepencity(newMDIChild.minFrequency, newMDIChild.maxFrequency);
+                    dependenceForm.microphonesList.Add(mic);
+                }
+
+                dependenceForm.RebuildGraph();
+                this.Close();
+                return;
+            }
+            else
+            {
+                newMDIChild.microphonesList = microphonesList;
+            }
             newMDIChild.Show();
         }
 

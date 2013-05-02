@@ -70,6 +70,13 @@ namespace DirectCalc
                         first = (1 + Math.Cos(angle)) * alglib.besselj1((2 * Math.PI * radius * Math.Sin(angle)) / wavelenght) * wavelenght;
                         second = 4 * Math.PI * radius * Math.Sin(angle);
 
+                        /*
+                        double k = 2 * Math.PI / wavelenght;
+
+                        first = 2 * alglib.besselj1(k * radius * Math.Sin(angle));
+                        second = k * radius * Math.Sin(angle);
+                        */
+
                         if (first == 0.0)
                         {
                             angle += 0.000001;

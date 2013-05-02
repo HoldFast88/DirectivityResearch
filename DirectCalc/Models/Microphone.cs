@@ -105,14 +105,19 @@ namespace DirectCalc
                         for (int i = 0; i < count; i++)
                         {
                             double freq = minimumFrequency + (deltha / count) * (i + 1);
+                            
                             double theta = Math.PI / (i / count);
 
                             double wavelenght = (double)331 / (double)freq;
 
-                            double first = 5 * Math.PI * ((diameter / 2) * (diameter / 2));
-                            double second = wavelenght * wavelenght; // wavelenght ^ 2
+                            double radius = (diameter / 2);
+
+                            double first = 4 * Math.PI * Math.PI * radius * radius;
+                            double second = wavelenght * wavelenght;
 
                             directivityValuesList[i] = 10 * Math.Log10(Math.Abs(first / second));
+                             
+                            //directivityValuesList[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
                             frequinciesList[i] = freq;
                         }
                     }

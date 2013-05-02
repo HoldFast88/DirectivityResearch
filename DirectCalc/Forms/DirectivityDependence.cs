@@ -39,7 +39,7 @@ namespace DirectCalc
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void RebuildGraph()
+        public void RebuildGraph()
         {
             GraphPane pane = zedGraphControl1.GraphPane;
 
@@ -94,8 +94,10 @@ namespace DirectCalc
 
             // Set the Titles
             myPane.Title.Text = plotTitle;
-            myPane.XAxis.Title.Text = "Frequency, Hz";
-            myPane.YAxis.Title.Text = "Directivity, dB";
+            //myPane.XAxis.Title.Text = "Frequency, Hz";
+            //myPane.YAxis.Title.Text = "Directivity, dB";
+            myPane.YAxis.Title.IsVisible = false;
+            myPane.XAxis.Title.IsVisible = false;
             myPane.XAxis.MajorGrid.IsVisible = true;
             myPane.YAxis.MajorGrid.IsVisible = true;
 
@@ -110,7 +112,7 @@ namespace DirectCalc
                 double[] xValuesArray = microphone.frequinciesList;
                 double[] yValuesArray = microphone.directivityValuesList;
 
-                String title = microphone.title;
+                //String title = microphone.title;
 
                 // search for biggest Y value, which represents max working frequency
                 double maxYValue = 0;
@@ -130,7 +132,8 @@ namespace DirectCalc
                 arrayOfMaxWorkingFrequecies.Add(xValue);
 
                 PointPairList list = new PointPairList(xValuesArray, yValuesArray);
-                LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
+                //LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
+                LineItem curve = myPane.AddCurve(null, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
                 curve.Symbol.Fill.Color = Color.Blue;
                 curve.Symbol.Fill.Type = FillType.Solid;
                 curve.Symbol.Size = 2;
@@ -250,6 +253,14 @@ namespace DirectCalc
             }
 
             RebuildGraph();
+        }
+
+        private void button3_Click(object sender, EventArgs e) // add new graph
+        {
+            MainForm mainForm = new MainForm();
+            mainForm.isOpenedForAddingGraph = true;
+            mainForm.dependenceForm = this;
+            mainForm.Show();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////

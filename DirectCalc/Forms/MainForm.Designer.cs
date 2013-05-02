@@ -56,9 +56,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 251);
+            this.button1.Location = new System.Drawing.Point(12, 295);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 34);
+            this.button1.Size = new System.Drawing.Size(312, 34);
             this.button1.TabIndex = 0;
             this.button1.Text = "Построить зависимость КН от частоты";
             this.button1.UseVisualStyleBackColor = true;
@@ -66,21 +66,21 @@
             // 
             // frequencyTextField
             // 
-            this.frequencyTextField.Location = new System.Drawing.Point(149, 165);
+            this.frequencyTextField.Location = new System.Drawing.Point(149, 209);
             this.frequencyTextField.Name = "frequencyTextField";
             this.frequencyTextField.Size = new System.Drawing.Size(39, 20);
             this.frequencyTextField.TabIndex = 1;
             // 
             // numberTextField
             // 
-            this.numberTextField.Location = new System.Drawing.Point(149, 192);
+            this.numberTextField.Location = new System.Drawing.Point(149, 236);
             this.numberTextField.Name = "numberTextField";
             this.numberTextField.Size = new System.Drawing.Size(100, 20);
             this.numberTextField.TabIndex = 2;
             // 
             // deltaTextField
             // 
-            this.deltaTextField.Location = new System.Drawing.Point(149, 219);
+            this.deltaTextField.Location = new System.Drawing.Point(149, 263);
             this.deltaTextField.Name = "deltaTextField";
             this.deltaTextField.Size = new System.Drawing.Size(100, 20);
             this.deltaTextField.TabIndex = 3;
@@ -88,7 +88,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 169);
+            this.label1.Location = new System.Drawing.Point(45, 213);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 4;
@@ -97,7 +97,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 196);
+            this.label2.Location = new System.Drawing.Point(36, 240);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 5;
@@ -106,7 +106,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 222);
+            this.label3.Location = new System.Drawing.Point(20, 266);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 13);
             this.label3.TabIndex = 6;
@@ -114,7 +114,7 @@
             // 
             // frequencyMaxTextBox
             // 
-            this.frequencyMaxTextBox.Location = new System.Drawing.Point(211, 165);
+            this.frequencyMaxTextBox.Location = new System.Drawing.Point(211, 209);
             this.frequencyMaxTextBox.Name = "frequencyMaxTextBox";
             this.frequencyMaxTextBox.Size = new System.Drawing.Size(38, 20);
             this.frequencyMaxTextBox.TabIndex = 8;
@@ -122,7 +122,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(191, 168);
+            this.label4.Location = new System.Drawing.Point(191, 212);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 13);
             this.label4.TabIndex = 9;
@@ -131,7 +131,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(253, 222);
+            this.label5.Location = new System.Drawing.Point(253, 266);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(21, 13);
             this.label5.TabIndex = 11;
@@ -140,7 +140,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(254, 168);
+            this.label6.Location = new System.Drawing.Point(254, 212);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 12;
@@ -148,9 +148,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(175, 251);
+            this.button2.Location = new System.Drawing.Point(12, 130);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(147, 34);
+            this.button2.Size = new System.Drawing.Size(312, 34);
             this.button2.TabIndex = 17;
             this.button2.Text = "Построить диаграмму направленности";
             this.button2.UseVisualStyleBackColor = true;
@@ -158,7 +158,7 @@
             // 
             // frequencyField
             // 
-            this.frequencyField.Location = new System.Drawing.Point(149, 139);
+            this.frequencyField.Location = new System.Drawing.Point(149, 183);
             this.frequencyField.Name = "frequencyField";
             this.frequencyField.Size = new System.Drawing.Size(100, 20);
             this.frequencyField.TabIndex = 16;
@@ -166,7 +166,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(90, 144);
+            this.label7.Location = new System.Drawing.Point(90, 188);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 15;
@@ -212,7 +212,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(40, 196);
+            this.label8.Location = new System.Drawing.Point(40, 240);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 19;
@@ -220,7 +220,7 @@
             // 
             // diameterTextBox
             // 
-            this.diameterTextBox.Location = new System.Drawing.Point(149, 192);
+            this.diameterTextBox.Location = new System.Drawing.Point(149, 236);
             this.diameterTextBox.Name = "diameterTextBox";
             this.diameterTextBox.Size = new System.Drawing.Size(100, 20);
             this.diameterTextBox.TabIndex = 20;
@@ -228,7 +228,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(253, 196);
+            this.label9.Location = new System.Drawing.Point(253, 240);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(21, 13);
             this.label9.TabIndex = 21;
@@ -277,7 +277,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 297);
+            this.ClientSize = new System.Drawing.Size(336, 343);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label10);
