@@ -41,15 +41,20 @@ namespace DirectCalc
                 diameterNumeric.Enabled = false;
             }
 
-            countNumeric.Value = microphone.properties.count;
-            delthaNumeric.Value = Convert.ToDecimal(microphone.properties.deltha);
-            diameterNumeric.Value = Convert.ToDecimal(microphone.properties.diameter);
+            RedrawPlot();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         private void RedrawPlot()
         {
+            microphone.properties.count = Convert.ToInt32(countNumeric.Value);
+            microphone.properties.deltha = Convert.ToDouble(delthaNumeric.Value) / 100.0;
+            microphone.properties.diameter = Convert.ToDouble(diameterNumeric.Value) / 100.0;
+            frequency = Convert.ToUInt32(frequencyNumeric.Value);
+
+            pointsArray = (double[])microphone.createArrayForDirectivityPlot(frequency);
+
             GraphPane pane = zedGraphControl1.GraphPane;
 
             // Если есть что удалять
@@ -135,13 +140,6 @@ namespace DirectCalc
 
         private void ValueChanged(object sender, EventArgs e)
         {
-            microphone.properties.count = Convert.ToInt32(countNumeric.Value);
-            microphone.properties.deltha = Convert.ToDouble(delthaNumeric.Value) / 100.0;
-            microphone.properties.diameter = Convert.ToDouble(diameterNumeric.Value) / 100.0;
-            frequency = Convert.ToUInt32(frequencyNumeric.Value);
-
-            pointsArray = (double[])microphone.createArrayForDirectivityPlot(frequency);
-
             RedrawPlot();
         }
 

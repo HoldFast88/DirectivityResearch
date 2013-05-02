@@ -33,7 +33,6 @@ namespace DirectCalc
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool isFrequencyFieldIsEmpty = frequencyField.Text.Length == 0;
             bool isMinimumFrequencyFieldIsEmpty = frequencyTextField.Text.Length == 0;
             bool isMaximumFrequencyFieldIsEmpty = frequencyMaxTextBox.Text.Length == 0;
             bool isDiameterFieldIsEmpty = diameterTextBox.Text.Length == 0;
@@ -107,145 +106,36 @@ namespace DirectCalc
 
         private void button2_Click(object sender, EventArgs e) // build directivity diagram
         {
-            bool isFrequencyFieldIsEmpty = frequencyField.Text.Length == 0;
+            double[] array = null;
+            System.String plotTitle = "";
+            Microphone microphone;
+            MicrophoneProperties properties = null;
 
-            if (!isFrequencyFieldIsEmpty)
+            if (organRadioButton.Checked)
             {
-                double[] array = null;
-                System.String plotTitle = "";
-                Microphone microphone;
-                MicrophoneProperties properties = null;
-
-                UInt32 frequency = Convert.ToUInt32(frequencyField.Text);
-                Int32 tubesNumber = 0;
-                double deltha = 0;
-
-                if (numberTextField.Text.Length > 0 && deltaTextField.Text.Length > 0)
-                {
-                    tubesNumber = Convert.ToInt32(numberTextField.Text);
-                    deltha = Convert.ToDouble(deltaTextField.Text) / (double)100;
-                }
-
-                if (organRadioButton.Checked)
-                {
-                    plotTitle = "Микрофон органного типа";
-                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, deltha, tubesNumber, 0);
-                }
-                else if (lineGroupRadioButton.Checked)
-                {
-                    plotTitle = "Линейная группа микрофонов";
-                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, deltha, tubesNumber, 0);
-                }
-                else if (parabolicRadioButton.Checked)
-                {
-                    double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-                    plotTitle = "Параболический микрофон";
-                    properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0, 0, diameter);
-                }
-
-                microphone = new Microphone(plotTitle, properties);
-
-                DirectivityDiagram newMDIChild = new DirectivityDiagram();
-
-                newMDIChild.pointsArray = (double[])microphone.createArrayForDirectivityPlot(frequency);
-                newMDIChild.microphone = microphone;
-                newMDIChild.frequency = frequency;
-                newMDIChild.Show();
+                plotTitle = "Микрофон органного типа";
+                properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, 0, 0, 0);
             }
+            else if (lineGroupRadioButton.Checked)
+            {
+                plotTitle = "Линейная группа микрофонов";
+                properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, 0, 0, 0);
+            }
+            else if (parabolicRadioButton.Checked)
+            {
+                plotTitle = "Параболический микрофон";
+                properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0, 0, 0);
+            }
+
+            microphone = new Microphone(plotTitle, properties);
+            
+
+            DirectivityDiagram newMDIChild = new DirectivityDiagram();
+
+            newMDIChild.microphone = microphone;
+            newMDIChild.Show();
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        /*
-        private Array[] buildDirectivityDepencity(MicrophoneType microphoneType)
-        {
-            int count = 1000;
-            progressBar1.Maximum = count;
-            double[] array = new double[count];
-            double[] yAxisValues = new double[count];
-
-            double minFrequency = Convert.ToDouble(frequencyTextField.Text);
-            double maxFrequency = Convert.ToDouble(frequencyMaxTextBox.Text);
-            double deltha = maxFrequency - minFrequency;
-            Int32 num = 0;
-            double d = 0.0;
-
-            if (microphoneType != MicrophoneType.MicrophoneTypeParabolic)
-            {
-                num = Convert.ToInt32(numberTextField.Text);
-
-                d = Convert.ToDouble(deltaTextField.Text) / (double)100;
-            }
-            double diameter = 0.0;
-
-            if (microphoneType == MicrophoneType.MicrophoneTypeParabolic)
-            {
-                diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
-            }
-
-            Array[] arrayForReturn = new Array[2];
-
-            switch (microphoneType)
-            {
-                case MicrophoneType.MicrophoneTypeLinear:
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            double freq = minFrequency + (deltha / count) * (i + 1);
-                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
-
-                            yAxisValues[i] = freq;
-                            progressBar1.Value = i + 1;
-                        }
-                    }
-                    break;
-
-                case MicrophoneType.MicrophoneTypeOrgan:
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            double freq = minFrequency + (deltha / count) * (i + 1);
-                            array[i] = DirectivityController.CountDirectivityRate(microphoneType, freq, d, num, diameter);
-
-                            yAxisValues[i] = freq;
-                            progressBar1.Value = i + 1;
-                        }
-                    }
-                    break;
-
-                case MicrophoneType.MicrophoneTypeParabolic:
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            double freq = minFrequency + (deltha / count) * (i + 1);
-                            double theta = Math.PI / (i / count);
-
-                            double wavelenght = (double)331 / (double)freq;
-
-                            double first = 5 * Math.PI * Math.Pow(diameter / 2, 2.0);
-                            double second = Math.Pow(wavelenght, 2.0);
-
-                            array[i] = 10 * Math.Log10(Math.Abs(first / second));
-
-                            yAxisValues[i] = freq;
-                            progressBar1.Value = i + 1;
-                        }
-                    }
-                    break;
-
-                default:
-                    {
-                    }
-                    break;
-            }
-
-            progressBar1.Value = 0;
-
-            arrayForReturn[0] = array;
-            arrayForReturn[1] = yAxisValues;
-
-            return arrayForReturn;
-        }
-        */
         /////////////////////////////////////////////////////////////////////////////////////////////
 
         private void Form1_Load(object sender, EventArgs e)
@@ -294,12 +184,10 @@ namespace DirectCalc
                 label4.Show();
                 label5.Show();
                 label6.Show();
-                label7.Show();
                 label8.Hide();
                 label9.Hide();
 
                 // text fields
-                frequencyField.Show();
                 frequencyTextField.Show();
                 frequencyMaxTextBox.Show();
                 numberTextField.Show();
@@ -316,22 +204,15 @@ namespace DirectCalc
                 label4.Show();
                 label5.Hide();
                 label6.Show();
-                //label7.Hide();
-                label7.Show();
                 label8.Show();
                 label9.Show();
 
                 // text fields
-                //frequencyField.Hide();
-                frequencyField.Show();
                 frequencyTextField.Show();
                 frequencyMaxTextBox.Show();
                 numberTextField.Hide();
                 deltaTextField.Hide();
                 diameterTextBox.Show();
-
-                // buttons
-                //button2.Enabled = false;
             }
 
             // buttons
