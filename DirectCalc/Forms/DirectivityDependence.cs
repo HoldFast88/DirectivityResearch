@@ -167,7 +167,7 @@ namespace DirectCalc
 
         private void ShowAlert()
         {
-            MessageBox.Show("Максимальная рабочая частота для рассчитываемого типа микрофона должна быть больше или равна 5600 Гц.", "Ошибка", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            MessageBox.Show("Максимальная рабочая частота для расчитываемого типа микрофона должна быть больше или равна 5600 Гц.", "Ошибка", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,6 +259,8 @@ namespace DirectCalc
         {
             MainForm mainForm = new MainForm();
             mainForm.isOpenedForAddingGraph = true;
+            mainForm.minFrequency = minFrequency;
+            mainForm.maxFrequency = maxFrequency;
             mainForm.dependenceForm = this;
             mainForm.Show();
         }

@@ -21,6 +21,8 @@ namespace DirectCalc
     partial class MainForm : Form
     {
         public bool isOpenedForAddingGraph;
+        public double minFrequency;
+        public double maxFrequency;
         public DirectivityDependence dependenceForm;
 
         public MainForm()
@@ -245,6 +247,12 @@ namespace DirectCalc
             else
             {
                 button2.Enabled = true;
+            }
+
+            if (isOpenedForAddingGraph)
+            {
+                frequencyTextField.Text = Convert.ToString(minFrequency);
+                frequencyMaxTextBox.Text = Convert.ToString(maxFrequency);
             }
         }
 
