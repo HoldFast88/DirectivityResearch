@@ -52,6 +52,14 @@ namespace DirectCalc
 
             if (checkBox1.Checked) // linear mic
             {
+                bool isDelthaFieldIsEmpty = deltaTextField.Text.Length == 0;
+                bool isMicrophonesCountFieldIsEmpty = numberTextField.Text.Length == 0;
+
+                if (isDelthaFieldIsEmpty || isMicrophonesCountFieldIsEmpty)
+                {
+                    return;
+                }
+
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeLinear, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
                 String title = "Линейная группа микрофонов";
 
@@ -62,6 +70,14 @@ namespace DirectCalc
 
             if (checkBox2.Checked) // organ mic
             {
+                bool isDelthaFieldIsEmpty = deltaTextField.Text.Length == 0;
+                bool isTubesCountFieldIsEmpty = numberTextField.Text.Length == 0;
+
+                if (isDelthaFieldIsEmpty || isTubesCountFieldIsEmpty)
+                {
+                    return;
+                }
+
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeOrgan, (Convert.ToDouble(deltaTextField.Text) / (double)100), Convert.ToInt32(numberTextField.Text), 0);
                 String title = "Микрофон органного типа";
 
@@ -72,6 +88,11 @@ namespace DirectCalc
 
             if (checkBox3.Checked) // parabolic mic
             {
+                if (isDiameterFieldIsEmpty)
+                {
+                    return;
+                }
+
                 double diameter = Convert.ToDouble(diameterTextBox.Text) / (float)100;
                 MicrophoneProperties properties = new MicrophoneProperties(MicrophoneType.MicrophoneTypeParabolic, 0.0, 0, diameter);
                 String title = "Параболический микрофон";
@@ -106,6 +127,7 @@ namespace DirectCalc
 
         private void button2_Click(object sender, EventArgs e) // build directivity diagram
         {
+            // It opens directivity diagram form only, graph build after form loading
             double[] array = null;
             System.String plotTitle = "";
             Microphone microphone;
