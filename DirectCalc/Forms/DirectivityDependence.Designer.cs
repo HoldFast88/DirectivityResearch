@@ -141,6 +141,7 @@
             this.button2.TabIndex = 8;
             this.button2.Text = "Добавить шум";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // noiseLevelTextFiels
@@ -149,6 +150,7 @@
             this.noiseLevelTextFiels.Name = "noiseLevelTextFiels";
             this.noiseLevelTextFiels.Size = new System.Drawing.Size(172, 20);
             this.noiseLevelTextFiels.TabIndex = 9;
+            this.noiseLevelTextFiels.Visible = false;
             // 
             // noiseDirectionalTextField
             // 
@@ -156,6 +158,7 @@
             this.noiseDirectionalTextField.Name = "noiseDirectionalTextField";
             this.noiseDirectionalTextField.Size = new System.Drawing.Size(172, 20);
             this.noiseDirectionalTextField.TabIndex = 10;
+            this.noiseDirectionalTextField.Visible = false;
             // 
             // label1
             // 
@@ -165,6 +168,7 @@
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 11;
             this.label1.Text = "Уровень шума, дБ";
+            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -174,6 +178,7 @@
             this.label2.Size = new System.Drawing.Size(134, 13);
             this.label2.TabIndex = 12;
             this.label2.Text = "Направление шума, град";
+            this.label2.Visible = false;
             // 
             // button3
             // 
@@ -183,6 +188,7 @@
             this.button3.TabIndex = 13;
             this.button3.Text = "Добавить график";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // DirectivityDependence

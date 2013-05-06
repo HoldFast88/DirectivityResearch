@@ -241,14 +241,13 @@ namespace DirectCalc
         {
             // пройти по всем микрофонам, рассчитать зависимость величины шума от направления для каждого
             double noiseLevel = Convert.ToDouble(noiseLevelTextFiels.Text);
-            double noiseDirection = Convert.ToDouble(noiseDirectionalTextField.Text);
+            UInt32 noiseDirection = Convert.ToUInt32(noiseDirectionalTextField.Text);
 
             foreach (Microphone microphone in microphonesList)
             {
-                //double[] coefficients = microphone.createArrayForDirectivityPlot(frequency);
-
                 Noise noise = new Noise(NoiseType.NoiseTypeBrown);
                 noise.rate = noiseLevel;
+                noise.noiseDirection = noiseDirection;
                 microphone.AddNoise(noise);
             }
 

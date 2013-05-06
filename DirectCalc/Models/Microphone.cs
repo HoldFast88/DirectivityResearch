@@ -20,6 +20,20 @@ namespace DirectCalc
             properties = _properties;
         }
 
+        ///////////////////
+
+        private double ConvertToDB(double value)
+        {
+            return 10 * Math.Log10(value);
+        }
+
+        private double ConvertFromDB(double value)
+        {
+            return 2 / Math.Pow(10, value / 10);
+        }
+
+        ///////////////////
+
         public void AddNoise(Noise noise)
         {
             noise.sourceMicrophone = this;
@@ -27,7 +41,11 @@ namespace DirectCalc
 
             for (int i = 0; i < noise.noiseArray.Count; i++)
             {
-                directivityValuesList[i] += noise.noiseArray[i];
+                double directivityPlotValue = directivityValuesList[i];
+                double valueFromDB = ConvertFromDB(directivityPlotValue);
+                double resultValue = valueFromDB - noise.noiseArray[i];
+                double resultValueDB = ConvertToDB(resultValue);
+                directivityValuesList[i] = resultValueDB;
             }
         }
 
