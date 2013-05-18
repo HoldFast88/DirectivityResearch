@@ -112,7 +112,7 @@ namespace DirectCalc
                 double[] xValuesArray = microphone.frequinciesList;
                 double[] yValuesArray = microphone.directivityValuesList;
 
-                //String title = microphone.title;
+                String title = microphone.title;
 
                 // search for biggest Y value, which represents max working frequency
                 double maxYValue = 0;
@@ -132,8 +132,7 @@ namespace DirectCalc
                 arrayOfMaxWorkingFrequecies.Add(xValue);
 
                 PointPairList list = new PointPairList(xValuesArray, yValuesArray);
-                //LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
-                LineItem curve = myPane.AddCurve(null, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
+                LineItem curve = myPane.AddCurve(title, list, (i == 0 ? Color.Black : i == 1 ? Color.Blue : Color.Red), (i == 0 ? SymbolType.Square : i == 1 ? SymbolType.Diamond : SymbolType.Triangle));
                 curve.Symbol.Fill.Color = Color.Blue;
                 curve.Symbol.Fill.Type = FillType.Solid;
                 curve.Symbol.Size = 2;
