@@ -67,7 +67,6 @@ C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\tr\Z
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\zh-cn\ZedGraph.resources.dll
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\zh-tw\ZedGraph.resources.dll
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.Properties.Resources.resources
-C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\bin\Debug\alglibnet2.dll
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.MainForm.resources
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.DirectivityDependence.resources
 C:\Users\alexey.voitenko\Documents\DirectivityResearch\DirectCalc\obj\x86\Debug\DirectCalc.DirectivityDiagram.resources

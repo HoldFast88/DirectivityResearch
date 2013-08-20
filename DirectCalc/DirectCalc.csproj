@@ -96,6 +96,7 @@
     <Compile Include="Forms\DirectivityDiagram.Designer.cs">
       <DependentUpon>DirectivityDiagram.cs</DependentUpon>
     </Compile>
+    <Compile Include="Supporting files\Defines.cs" />
     <Compile Include="Supporting files\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Supporting files\specialfunctions.cs" />

@@ -11,13 +11,6 @@ using MathNet.Numerics.Integration;
 
 namespace DirectCalc
 {
-    enum MicrophoneType
-    {
-        MicrophoneTypeOrgan = 0,
-        MicrophoneTypeLinear = 1,
-        MicrophoneTypeParabolic = 2
-    };
-
     partial class MainForm : Form
     {
         public bool isOpenedForAddingGraph;

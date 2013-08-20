@@ -5,11 +5,6 @@ using System.Text;
 
 namespace DirectCalc
 {
-    enum NoiseType
-    {
-        NoiseTypeBrown
-    }
-
     class Noise
     {
         public NoiseType type;
